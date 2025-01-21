@@ -5,10 +5,10 @@ Impacta is a platform dedicated to helping people in need through community-driv
 
 ## **Members**
 ### **Frontend Team**
-- **Deepthi** (GitHub: [Deepthi-04](https://github.com/Deepthi-04))
+- **Deepthi Nidasanametla** (GitHub: [Deepthi-04](https://github.com/Deepthi-04))
 - **Vennela** (GitHub: [vennela0743](https://github.com/vennela0743))
 
 ### **Backend Team**
-- **Shruthi** (GitHub: [Shruthirdy](https://github.com/Shruthirdy))
+- **Shruthi Reddy** (GitHub: [Shruthirdy](https://github.com/Shruthirdy))
 - **Chandan** (GitHub: [chandan25809](https://github.com/chandan25809))
 
