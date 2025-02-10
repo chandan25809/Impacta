@@ -1,0 +1,83 @@
+/* 🌙 Dark Theme for Register Page */
+body {
+    /* background-color: #0d0d0d;  Dark background */ 
+    color: white;
+    font-family: "Arial", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* 📌 Center the Register Form */
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Register Card */
+  .register-card {
+    border-radius: 12px;
+    padding: 40px;
+    width: 500px; /* Increased width */
+    box-shadow: 0px 10px 30px rgba(255, 255, 255, 0.15);
+  }
+  
+  /* 🎨 Form Labels */
+  .ant-form-item-label > label {
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  /* ✨ Input Fields */
+  .ant-input, .ant-input-password {
+    background-color: #222 !important;
+    border: 1px solid #444 !important;
+    color: white !important;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  /* Customize the Eye Icon Color */
+  .ant-input-password-icon {
+    color: white !important; /* Make the eye icon white */
+  }
+  
+  /* 🔥 Register Button */
+  .register-button {
+    background-color: #ff9800 !important;
+    border: none !important;
+    font-size: 18px;
+    font-weight: bold;
+    height: 45px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .register-button:hover {
+    background-color: #e68900 !important;
+    transform: scale(1.05);
+  }
+  
+  /* 🖋️ Already a User? Text */
+  .register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: white; /* Ensure text is white */
+  }
+  
+  .register-link a {
+    color: #ff9800; /* Orange color for Login link */
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
