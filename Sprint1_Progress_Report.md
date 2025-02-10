@@ -103,7 +103,7 @@ go run main.go
 | S1-B03             | Finalize Database Schema (Users, Campaigns, Donations)           | **Chandan & Shruthi** | ✅ Completed   |
 | S1-B04             | Implement Role-Based Access Control (RBAC)                       | **Chandan**           | ✅ Completed   |
 | S1-B05             | Setup JWT Authentication for Secure API Access                   | **Chandan**           | ✅ Completed   |
-| S1-B06             | **Implement Database Integration & Migration**                   | **Chandan**           | ⏳ In Progress |
+| S1-B06             | **Implement Database Integration & Migration**                   | **Chandan**           | ✅ Completed   | 
 
 ---
 
@@ -116,8 +116,12 @@ go run main.go
 
 ---
 
+## 🎬 Frontend Walkthrough Video
+📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/TkEvWhEOQiE)
+
 ## 🎬 Backend Walkthrough Video
 📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://www.youtube.com/watch?v=zHQAoO1ket0)
+
 
 🚀 **Impacta - Empowering Small Causes, One Donation at a Time!**
 
