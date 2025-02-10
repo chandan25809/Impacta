@@ -1,17 +1,5 @@
 /* 🌟 White Theme for Login Page */
-body {
-  background-image: url("https://d25oniaj7o2jcw.cloudfront.net/full-illustration-desktop-20220802@2x.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #0d0d0d; /* Dark text for contrast */
-  font-family: "Poppins", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+
 
 /* 📌 Center the Login Form */
 .login-container {
@@ -19,6 +7,17 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url("https://d25oniaj7o2jcw.cloudfront.net/full-illustration-desktop-20220802@2x.jpg"); /* Example background */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #0d0d0d; /* Dark text for contrast */
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 📌 Login Card with Shadow and Rounded Borders */

@@ -2,35 +2,32 @@ import React, { useState } from "react";
 import { Form, Input, Button, Card, Typography, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../pages/login.css"; // Import the styles
+import styles from "../pages/Login.module.css"; // ✅ Import CSS Module
 
 const { Text } = Typography;
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     setLoading(true);
-
-    console.log("📌 Form Submitted:", values); // Debugging
+    console.log("📌 Form Submitted:", values);
 
     try {
       console.log("🚀 Sending login request to API...");
 
       const response = await axios.post(
-        "/api/login", // Using Proxy (Vite will redirect to ngrok)
+        "/api/login", // Using Proxy
         values,
         { headers: { "Content-Type": "application/json" } }
       );
 
       console.log("✅ API Response:", response);
 
-      // Check for successful login (status 200 or 201)
       if (response.status === 200 || response.status === 201) {
         message.success("Login successful! Redirecting to dashboard...");
         console.log("🔄 Redirecting to /dashboard...");
-
         setTimeout(() => navigate("/dashboard"), 2000);
       } else {
         message.error("Unexpected response from server.");
@@ -51,11 +48,11 @@ const Login = () => {
     setLoading(false);
   };
 
-
   return (
-    <div className="login-container">
-      <Card className="login-card" title={<span style={{ fontSize: "26px", fontWeight: "bold" }}>Welcome Back</span>}>
+    <div className={styles["login-container"]}> {/* ✅ Use CSS Module class */}
+      <Card className={styles["login-card"]} title={<span style={{ fontSize: "26px", fontWeight: "bold" }}>Welcome Back</span>}>
         <Form name="login" layout="vertical" onFinish={onFinish}>
+          
           {/* Email */}
           <Form.Item
             label="Enter Email"
@@ -65,7 +62,7 @@ const Login = () => {
               { type: "email", message: "Please enter a valid email" },
             ]}
           >
-            <Input placeholder="Enter email" />
+            <Input className={styles["login-input"]} placeholder="Enter email" />
           </Form.Item>
 
           {/* Password */}
@@ -74,19 +71,19 @@ const Login = () => {
             name="password"
             rules={[{ required: true, message: "Please enter your password" }]}
           >
-            <Input.Password placeholder="Enter password" />
+            <Input.Password className={styles["login-input"]} placeholder="Enter password" />
           </Form.Item>
 
           {/* Submit Button */}
           <Form.Item>
-            <Button className="login-button" type="primary" htmlType="submit" loading={loading} block>
+            <Button className={styles["login-button"]} type="primary" htmlType="submit" loading={loading} block>
               Login
             </Button>
           </Form.Item>
         </Form>
 
         {/* New User? Register */}
-        <div className="login-link">
+        <div className={styles["login-link"]}>
           <Text style={{ fontSize: "16px" }}>
             New user?{" "}
             <Typography.Link>

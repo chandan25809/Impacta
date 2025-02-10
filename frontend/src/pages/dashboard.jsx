@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Col, Row, Typography } from "antd";
-import "../pages/Dashboard.css"; // Import the styles
+import styles from "../pages/Dashboard.module.css"; // ✅ Correct CSS Module Import
 
 const { Title, Text } = Typography;
 
@@ -15,31 +15,31 @@ const donations = [
 
 const Dashboard = () => {
   return (
-    <div className="dashboard-container">
+    <div className={styles["dashboard-container"]}>
       {/* Greeting Message */}
-      <Title level={2} className="dashboard-title">
+      <Title level={2} className={styles["dashboard-title"]}>
         Hello Donor, Look at Your Donations
       </Title>
 
       {/* Spacing between title and cards */}
-      <div className="dashboard-space"></div>
+      <div className={styles["dashboard-space"]}></div>
 
       {/* Grid Layout for Donations */}
       <Row gutter={[24, 24]} justify="center">
         {donations.map((donation) => (
           <Col key={donation.id} xs={24} sm={12} md={8} lg={6}>
-            <Card className="donation-card">
-              <Title level={4} className="donation-name">{donation.name}</Title>
+            <Card className={styles["donation-card"]}>
+              <Title level={4} className={styles["donation-name"]}>{donation.name}</Title>
 
-              <Text className="donation-label">Your Contribution:</Text>
-              <Text className="donation-amount">{donation.amount}</Text>
+              <Text className={styles["donation-label"]}>Your Contribution:</Text>
+              <Text className={styles["donation-amount"]}>{donation.amount}</Text>
 
-              <Text className="donation-label">Beneficiary:</Text>
-              <Text className="donation-beneficiary"> {donation.beneficiary}</Text>
+              <Text className={styles["donation-label"]}>Beneficiary:</Text>
+              <Text className={styles["donation-beneficiary"]}>{donation.beneficiary}</Text>
 
               {/* View More inside the card and in yellow color */}
-              <div className="view-more-container">
-                <a href={donation.link} className="view-more">
+              <div className={styles["view-more-container"]}>
+                <a href={donation.link} className={styles["view-more"]}>
                   View Campaign
                 </a>
               </div>
