@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,11 +25,18 @@ a:hover {
 }
 
 body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
   margin: 0;
+  padding: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+}
+
+section, div {
+  /* width: 100%; */
+  box-sizing: border-box;
 }
 
 h1 {
@@ -65,4 +74,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.available{
+  width: 32%;
 }
