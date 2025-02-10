@@ -1,23 +1,24 @@
 package utils
 
 import (
-	"database/sql"
-	"log"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
+    "log"
 )
 
-var DB *sql.DB
+var DB *gorm.DB
 
 func ConnectDB() {
-	var err error
-	// Update the connection string with your database credentials
-	DB, err = sql.Open("postgres", "user=youruser password=yourpassword dbname=yourdbname sslmode=disable")
-	if err != nil {
-		log.Fatal("Failed to connect to the database:", err)
-	}
+    var err error
 
-	if err = DB.Ping(); err != nil {
-		log.Fatal("Database is not reachable:", err)
-	}
+    // Update this connection string with your database credentials
+    dsn := "host=localhost user=impacta_user password=impacta dbname=impacta port=5432 sslmode=disable TimeZone=Asia/Kolkata"
 
-	log.Println("Connected to the database successfully")
+    DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    if err != nil {
+        log.Fatal("Failed to connect to the database:", err)
+    }
+
+    log.Println("Database connected successfully")
 }
+
