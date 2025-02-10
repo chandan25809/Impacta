@@ -52,7 +52,7 @@ const Register = () => {
   return (
     <div className={styles["register-container"]}>
       <Card className={styles["register-card"]} title={<span style={{ fontSize: "24px", fontWeight: "bold" }}>Register</span>}>
-        <Form name="register" layout="vertical" o nFinish={onFinish}>
+        <Form name="register" layout="vertical" onFinish={onFinish}>
           {/* Full Name */}
           <Form.Item
             label="Full Name"

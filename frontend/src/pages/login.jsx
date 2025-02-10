@@ -13,18 +13,18 @@ const Login = () => {
   const onFinish = async (values) => {
     setLoading(true);
     console.log("📌 Form Submitted:", values);
-
+  
     try {
       console.log("🚀 Sending login request to API...");
-
+  
       const response = await axios.post(
-        "/api/login", // Using Proxy
+        "/api/login",
         values,
         { headers: { "Content-Type": "application/json" } }
       );
-
+  
       console.log("✅ API Response:", response);
-
+  
       if (response.status === 200 || response.status === 201) {
         message.success("Login successful! Redirecting to dashboard...");
         console.log("🔄 Redirecting to /dashboard...");
@@ -38,15 +38,18 @@ const Login = () => {
       
       if (error.response) {
         console.error("❌ API Error Response:", error.response);
+        console.log("❗ Status:", error.response.status);
+        console.log("❗ Data:", error.response.data);
       } else if (error.request) {
         console.error("⚠️ No Response from API:", error.request);
       } else {
         console.error("🚨 Error in request setup:", error.message);
       }
     }
-
+  
     setLoading(false);
   };
+  
 
   return (
     <div className={styles["login-container"]}> {/* ✅ Use CSS Module class */}
