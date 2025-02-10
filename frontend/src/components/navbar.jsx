@@ -7,6 +7,7 @@ const Navbar = () => {
     { label: <Link to="/">Home</Link>, key: "home" },
     { label: <Link to="/about">About</Link>, key: "about" },
     { label: <Link to="/contact">Contact</Link>, key: "contact" },
+    { label: <Link to="/dashboard">Dashboard</Link>, key: "dashboard" }
   ];
 
   return (
