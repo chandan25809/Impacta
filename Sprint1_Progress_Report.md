@@ -112,6 +112,6 @@ go run main.go
 - **Vennela** - Frontend Development
 - **Deepthi** - Frontend Development
 - **Chandan** - Backend Development
-- **Shruthi** - Database Development
+- **Shruthi** - Backend Development
 
 🚀 **Impacta - Empowering Small Causes, One Donation at a Time!**
