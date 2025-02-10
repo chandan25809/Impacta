@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/register"); // Redirects to the login page
+  };
+
   return <>
   <meta charSet="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -123,7 +132,7 @@ const Home = () => {
     </div>
 
     {/* Call-to-Action Button */}
-    <button className="bg-accent hover:bg-accent/90 px-4 py-2 rounded-md text-white">
+    <button onClick={handleNavigation} className="bg-accent hover:bg-accent/90 px-4 py-2 rounded-md text-white">
       Start Campaign
     </button>
 
@@ -145,9 +154,11 @@ const Home = () => {
       <a href="/how-it-works" className="block px-3 py-2 rounded-md hover:bg-neutral-700 text-white">How It Works</a>
       <a href="/start-campaign" className="block px-3 py-2 rounded-md hover:bg-neutral-700 text-white">Start a Campaign</a>
       <a href="/success-stories" className="block px-3 py-2 rounded-md hover:bg-neutral-700 text-white">Success Stories</a>
-      <button className="w-full text-center bg-accent hover:bg-accent/90 px-4 py-2 rounded-md mt-4 text-white">
-        Start Campaign
-      </button>
+      <Link to="/register">
+  <button className="w-full text-center bg-accent hover:bg-accent/90 px-4 py-2 rounded-md mt-4 text-white">
+    Start Campaign
+  </button>
+</Link>
     </div>
   </div>
 </nav>
