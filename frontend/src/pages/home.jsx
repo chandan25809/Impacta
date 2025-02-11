@@ -189,9 +189,11 @@ const Home = () => {
                 <button className="bg-accent hover:bg-accent/90 px-8 py-4 rounded-lg text-lg font-semibold animate__animated animate__pulse animate__infinite">
                   Start Your Project
                 </button>
+                <a href="#featuredCampaigns" onClick={() => scrollToSection('featuredCampaigns')} className="text-white hover:text-gray-300 transition-colors duration-200 !text-white">
                 <button className="border-2 border-white hover:bg-white hover:text-neutral-900 px-8 py-4 rounded-lg text-lg font-semibold transition-colors duration-300">
                   Browse Projects
                 </button>
+                </a>
               </div>
               
               {/* Profile Images + Text Alignment */}
