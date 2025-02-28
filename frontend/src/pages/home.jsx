@@ -105,7 +105,7 @@ const Home = () => {
     data-section-id="8200bcc5-b6b0-492d-a05a-493c77a29257"
   >
     <div id="root">
-    <nav id="navbar" className="w-full bg-neutral-900 text-white px-6 py-4">
+    <nav id="navbar" className="fixed top-0 left-0 w-full z-50 bg-neutral-900 text-white px-6 py-4 shadow-lg">
   {/* Navbar Container */}
   <div className="w-full max-w-7xl mx-auto flex items-center justify-between">
     
@@ -163,9 +163,9 @@ const Home = () => {
   </div>
 </nav>
 
-
     </div>
   </element>
+
   <element
     id="3c8b611a-73c5-4bf1-825a-34c0fddb8624"
     data-section-id="3c8b611a-73c5-4bf1-825a-34c0fddb8624"
