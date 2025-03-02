@@ -26,9 +26,14 @@ const Login = () => {
       console.log("✅ API Response:", response);
   
       if (response.status === 200 || response.status === 201) {
+        const { token } = response.data; // Extract token from response
+
+        // ✅ Store token in localStorage
+        localStorage.setItem("token", token);
+        console.log("🔑 Token stored in localStorage:", token)
         message.success("Login successful! Redirecting to dashboard...");
         console.log("🔄 Redirecting to /dashboard...");
-        setTimeout(() => navigate("/dashboard"), 2000);
+        setTimeout(() => navigate("/dashboard"), 1000);
       } else {
         message.error("Unexpected response from server.");
         console.error("⚠️ Unexpected API Response:", response);

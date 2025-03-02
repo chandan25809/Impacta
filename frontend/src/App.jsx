@@ -1,34 +1,7 @@
-// import React from "react";
-// import { Routes, Route } from "react-router-dom";
-// import Home from "./pages/home";
-// import About from "./pages/about";
-// import Contact from "./pages/Contact";
-// import Register from "./pages/register";
-// import Login from "./pages/login";
-// import Dashboard from "./pages/dashboard";
-// import Navbar from "./components/Navbar";
-
-
-// const App = () => {
-//   return (
-//     <>
-//       {/* <Navbar /> */}
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/about" element={<About />} />
-//         <Route path="/contact" element={<Contact />} />
-//         <Route path="/register" element={<Register />} />
-//         <Route path="/login" element={<Login />} /> 
-//         <Route path="/dashboard" element={<Dashboard/>} /> 
-//       </Routes>
-//     </>
-//   );
-// };
-
-// export default App;
-
-import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
@@ -51,24 +24,28 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <Navbar /> {/* ✅ Navbar is always visible */}
+      <>
+        {/* <Navbar /> */}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login setUserRole={setUserRole} setIsAuthenticated={setIsAuthenticated} />} />
-        
-        {/* ✅ Dashboard is only accessible after login */}
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard userRole={userRole} /> : <Navigate to="/login" />} />
+        <Routes>
+          {/* Public Routes */}
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/donation" element={<DonationPage/>}/>
+          </Route>
 
-        <Route path="/create-campaign" element={<CreateCampaign />} />
-      </Routes>
-    </>
+          {/* Private Routes - Only Accessible to Authenticated Users */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/createcampaign" element={<CreateCampaign />} />
+          </Route>
+        </Routes>
+      </>
   );
 };
 
 export default App;
-
