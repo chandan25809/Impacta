@@ -96,22 +96,32 @@ go run main.go
 | S1-F07             | Integrate mock backend with frontend                             | **Deepthi**           | ✅ Completed   |
 | S1-F08             | Develop and integrate **Login Page (Frontend & Backend)**        | **Deepthi**           | ✅ Completed   |
 | S1-F09             | Develop and integrate **Registration Page (Frontend & Backend)** | **Deepthi**           | ✅ Completed   |
-| S1-F10             | Setup initial **Dashboard Page Skeleton (UI Only)**              | **Deepthi**           | ✅ Completed |
+| S1-F10             | Setup initial **Dashboard Page Skeleton (UI Only)**              | **Deepthi**           | ⏳ In Progress |
 | **Backend Tasks**  |                                                                  |                       |               |
 | S1-B01             | Setup architecture for Backend                                   | **Shruthi**           | ✅ Completed   |
 | S1-B02             | Create user authentication API (Register & Login)                | **Shruthi**           | ✅ Completed   |
 | S1-B03             | Finalize Database Schema (Users, Campaigns, Donations)           | **Chandan & Shruthi** | ✅ Completed   |
 | S1-B04             | Implement Role-Based Access Control (RBAC)                       | **Chandan**           | ✅ Completed   |
 | S1-B05             | Setup JWT Authentication for Secure API Access                   | **Chandan**           | ✅ Completed   |
-| S1-B06             | **Implement Database Integration & Migration**                   | **Chandan**           | ✅  Completed |
+| S1-B06             | **Implement Database Integration & Migration**                   | **Chandan**           | ✅ Completed   | 
 
 ---
 
 ## 👥 Contributors
 
 - **Vennela** - Frontend Development
-- **Deepthi** - Frontend Development
+- **Deepthi** - Frontend & API Integration
 - **Chandan** - Backend Development
-- **Shruthi** - Database Development
+- **Shruthi** - Database & Authentication
+
+---
+
+## 🎬 Frontend Walkthrough Video
+📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/TkEvWhEOQiE)
+
+## 🎬 Backend Walkthrough Video
+📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://www.youtube.com/watch?v=zHQAoO1ket0)
+
 
 🚀 **Impacta - Empowering Small Causes, One Donation at a Time!**
+

@@ -1,0 +1,142 @@
+/* 🌟 Dashboard Container */
+.dashboard-container {
+    padding: 40px;
+    text-align: center;
+    background-color: #1a1a1a; /* Dark background */
+    min-height: 100vh;
+  }
+  
+  /* 📌 Dashboard Title */
+  .dashboard-title {
+    color: #ffc107; /* Yellow color */
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  /* 🏆 Space between title and cards */
+  .dashboard-space {
+    height: 30px;
+  }
+  
+  /* 🎁 Donation Cards */
+  .donation-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.15);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    width: 100%; /* Increased width */
+    height: 300px; /* Increased height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .donation-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* 📌 Donation Name */
+  .donation-name {
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* 💰 Your Contribution */
+  .donation-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    color:#ff9800;
+  }
+  
+  /* 💵 Donation Amount */
+  .donation-amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff9800;
+  }
+  
+  /* 🎯 Beneficiary */
+  .donation-beneficiary {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* 🔗 View More Button (Inside the card and yellow) */
+  .view-more-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .view-more {
+    color: #007bff !important;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .view-more:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 500px) {
+    .donation-card {
+      height: auto;
+      padding: 20px;
+    }
+  }
+  h2:where(.css-dev-only-do-not-override-1htoz2s).ant-typography, div:where(.css-dev-only-do-not-override-1htoz2s).ant-typography-h2, div:where(.css-dev-only-do-not-override-1htoz2s).ant-typography-h2>textarea, :where(.css-dev-only-do-not-override-1htoz2s).ant-typography h2 {
+    margin-bottom: 0.5em;
+    color: #ff9800;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1.2666666666666666;
+  }
+  /* 🌟 Dashboard Container */
+.dashboard-container {
+    padding: 40px;
+    text-align: center;
+    background-color: #1a1a1a; /* Dark background */
+    min-height: 100vh;
+}
+
+/* 👋 Hello Donor Section */
+.hello-donor-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.hello-donor-icon {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+}
+
+.hello-donor-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffc107; /* Yellow to match the theme */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hello-donor-text::after {
+    content: "\1F44B"; /* Unicode for waving hand emoji */
+    font-size: 24px;
+} 
+
+/* 📌 Dashboard Title */
+.dashboard-title {
+    color: #ffc107; /* Yellow color */
+    font-size: 32px;
+    font-weight: bold;
+}
