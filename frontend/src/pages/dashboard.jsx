@@ -1,52 +1,97 @@
 import React from "react";
-import { Card, Col, Row, Typography } from "antd";
-import styles from "../pages/Dashboard.module.css"; // ✅ Correct CSS Module Import
+import { Card, Col, Row, Typography, Button } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import styles from "../pages/dashboard.module.css"; // ✅ CSS Module Import
+import { Link } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
-// Sample donation data (replace with actual data from API)
-const donations = [
-  { id: 1, name: "COVID-19 Relief Fund", amount: "$500", beneficiary: "Red Cross", link: "#" },
-  { id: 2, name: "Children's Education Support", amount: "$200", beneficiary: "UNICEF", link: "#" },
-  { id: 3, name: "Wildlife Conservation", amount: "$150", beneficiary: "WWF", link: "#" },
-  { id: 4, name: "Food for the Homeless", amount: "$100", beneficiary: "Local Shelter", link: "#" },
-  { id: 5, name: "Medical Aid for Refugees", amount: "$250", beneficiary: "Doctors Without Borders", link: "#" },
+// Sample Campaign Data
+const campaigns = [
+  { id: 1, name: "COVID-19 Relief", amount: "$10,000 / $15,000", status: "Active" },
+  { id: 2, name: "Education for All", amount: "$5,500 / $10,000", status: "Pending" },
+  { id: 3, name: "Wildlife Protection", amount: "$3,200 / $5,000", status: "Completed" },
 ];
+
+// Sample Statistics
+const stats = {
+  totalCampaigns: 15,
+  activeCampaigns: 5,
+  totalFundsRaised: "$50,000+",
+};
 
 const Dashboard = () => {
   return (
     <div className={styles["dashboard-container"]}>
       {/* Greeting Message */}
-      <Title level={2} className={styles["dashboard-title"]}>
-        Hello Donor, Look at Your Donations
+      <Title level={2} className={styles["welcome-text"]}>
+        Welcome Back, Campaign Creator! 🎉
       </Title>
+      <Text className={styles["dashboard-subtitle"]}>
+        Here's an overview of your campaigns.
+      </Text>
 
-      {/* Spacing between title and cards */}
-      <div className={styles["dashboard-space"]}></div>
+      {/* 📊 Campaign Statistics Section */}
+      <div className={styles["stats-container"]}>
+        <Card className={styles["stats-card"]}>
+          <Text className={styles["stats-label"]}>Total Campaigns</Text>
+          <Title level={3} className={styles["stats-value"]}>{stats.totalCampaigns}</Title>
+        </Card>
+        <Card className={styles["stats-card"]}>
+          <Text className={styles["stats-label"]}>Active Campaigns</Text>
+          <Title level={3} className={styles["stats-value"]}>{stats.activeCampaigns}</Title>
+        </Card>
+        <Card className={styles["stats-card"]}>
+          <Text className={styles["stats-label"]}>Total Funds Raised</Text>
+          <Title level={3} className={styles["stats-value"]}>{stats.totalFundsRaised}</Title>
+        </Card>
+      </div>
 
-      {/* Grid Layout for Donations */}
-      <Row gutter={[24, 24]} justify="center">
-        {donations.map((donation) => (
-          <Col key={donation.id} xs={24} sm={12} md={8} lg={6}>
-            <Card className={styles["donation-card"]}>
-              <Title level={4} className={styles["donation-name"]}>{donation.name}</Title>
+      {/* 📍 Campaign Cards */}
+      <div className={styles["campaign-cards"]}>
+        <Row gutter={[24, 24]} justify="center">
+          {campaigns.map((campaign) => (
+            <Col key={campaign.id} xs={24} sm={12} md={8} lg={8}>
+              <Card className={styles["donation-card"]}>
+                <Title level={4} className={styles["donation-name"]}>{campaign.name}</Title>
 
-              <Text className={styles["donation-label"]}>Your Contribution:</Text>
-              <Text className={styles["donation-amount"]}>{donation.amount}</Text>
+                <div className={styles["funds-raised"]}>
+                  <Text className={styles["donation-label"]}>Funds Raised:</Text>
+                  <Text className={styles["donation-amount"]}>{campaign.amount}</Text>
+                </div>
 
-              <Text className={styles["donation-label"]}>Beneficiary:</Text>
-              <Text className={styles["donation-beneficiary"]}>{donation.beneficiary}</Text>
+                <div className={styles["status-container"]}>
+                  <Text className={styles["donation-label"]}>Status:</Text>
+                  <span className={`${styles["campaign-status"]} ${
+                    campaign.status === "Active" ? styles["status-active"] :
+                    campaign.status === "Pending" ? styles["status-pending"] :
+                    styles["status-completed"]
+                  }`}>
+                    {campaign.status}
+                  </span>
+                </div>
 
-              {/* View More inside the card and in yellow color */}
-              <div className={styles["view-more-container"]}>
-                <a href={donation.link} className={styles["view-more"]}>
-                  View Campaign
-                </a>
-              </div>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+                {/* Buttons */}
+                <div className={styles["button-group"]}>
+                  <button className={styles["manage-btn"]}>Manage</button>
+                  <button className={styles["analytics-btn"]}>View Analytics</button>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+
+      {/* 📝 Floating "Create Campaign" Button */}
+    <Link to="/create-campaign">
+      <Button
+        className={styles["create-campaign-btn"]}
+        type="primary"
+        icon={<PlusCircleOutlined />}
+      >
+        Create Campaign
+      </Button>
+      </Link> 
     </div>
   );
 };
