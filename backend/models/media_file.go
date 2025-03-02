@@ -15,3 +15,7 @@ type MediaFile struct {
 	CreatedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
+
+func (MediaFile) TableName() string {
+    return "mediafiles"
+}
