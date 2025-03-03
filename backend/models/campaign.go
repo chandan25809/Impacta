@@ -16,8 +16,7 @@ type Campaign struct {
 	Deadline      time.Time `gorm:"type:timestamp;not null"`
 	Status        string    `gorm:"type:varchar(50);default:'pending'"` // pending, active, completed
 	Currency      string    `gorm:"type:varchar(10);not null"`
-	Category      string    `gorm:"type:varchar(100);not null"` // New field
-	CreatedAt     time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
-	UpdatedAt     time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	Category      string    `gorm:"type:varchar(100);not null"`
+	CreatedAt     time.Time `gorm:"autoCreateTime"`
+	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 }
-

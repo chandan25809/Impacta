@@ -92,13 +92,17 @@ func ListCommentsByCampaignID(c *gin.Context) {
 	}
 
 	var comments []models.Comment
-	if err := utils.DB.Where("campaign_id = ?", campaignID).Find(&comments).Error; err != nil {
+	// Preload the associated User for each comment
+	if err := utils.DB.Preload("User").Where("campaign_id = ?", campaignID).Find(&comments).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve comments"})
 		return
 	}
 
-	c.JSON(http.StatusOK, comments)
+	// Option 1: Return the comments with the embedded user object
+	c.JSON(http.StatusOK, gin.H{"comments": comments})
+
 }
+
 
 // ListCommentsByUserID returns all comments created by a specific user.
 func ListCommentsByUserID(c *gin.Context) {

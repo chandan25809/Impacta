@@ -98,6 +98,29 @@ func MakeDonation(c *gin.Context) {
 
 
 
+// func ListCampaignDonations(c *gin.Context) {
+// 	// Get the campaign ID from the request parameters
+// 	campaignID := c.Param("id")
+
+// 	// Ensure the campaign exists
+// 	var campaign models.Campaign
+// 	if err := utils.DB.Where("id = ?", campaignID).First(&campaign).Error; err != nil {
+// 		c.JSON(http.StatusNotFound, gin.H{"error": "Campaign not found"})
+// 		return
+// 	}
+
+// 	// Fetch all donations related to the campaign
+// 	var donations []models.Donation
+// 	if err := utils.DB.Where("campaign_id = ?", campaignID).Find(&donations).Error; err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch donations"})
+// 		return
+// 	}
+
+// 	// Return donations
+// 	c.JSON(http.StatusOK, gin.H{"donations": donations})
+// }
+
+
 func ListCampaignDonations(c *gin.Context) {
 	// Get the campaign ID from the request parameters
 	campaignID := c.Param("id")
@@ -109,14 +132,15 @@ func ListCampaignDonations(c *gin.Context) {
 		return
 	}
 
-	// Fetch all donations related to the campaign
+	// Fetch all donations related to the campaign along with the donor information
 	var donations []models.Donation
-	if err := utils.DB.Where("campaign_id = ?", campaignID).Find(&donations).Error; err != nil {
+	if err := utils.DB.Preload("Donor").
+		Where("campaign_id = ?", campaignID).
+		Find(&donations).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch donations"})
 		return
 	}
 
-	// Return donations
 	c.JSON(http.StatusOK, gin.H{"donations": donations})
 }
 

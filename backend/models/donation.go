@@ -1,3 +1,4 @@
+// In models/donation.go
 package models
 
 import (
@@ -13,8 +14,11 @@ type Donation struct {
 	Amount     float64   `gorm:"type:numeric(12,2);not null"`
 	Currency   string    `gorm:"type:varchar(10);not null"`
 	Message    string    `gorm:"type:text"`
-	IsAnonymous bool      `gorm:"type:boolean;default:false"`
-	Status     string    `gorm:"type:varchar(50);default:'completed'"` // completed, failed, pending
+	IsAnonymous bool     `gorm:"default:false"`
+	Status     string    `gorm:"type:varchar(50);default:'completed'"`
 	CreatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
-	UpdatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	UpdatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
+
+	// Association to Users table.
+	Donor User `gorm:"foreignKey:DonorID;references:ID"`
 }

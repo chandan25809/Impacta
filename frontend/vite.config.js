@@ -3,14 +3,20 @@ import tailwindcss from '@tailwindcss/vite'
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  plugins: [react(), tailwindcss()],
   server: {
     proxy: {
       "/api": {
-        target: "https://7412-2600-8807-c182-d000-9f0-1919-5f22-f16f.ngrok-free.app",
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, "")
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // Set Accept header to JSON
+            proxyReq.setHeader('Accept', 'application/json');
+          });
+        },
       }
     }
   }
