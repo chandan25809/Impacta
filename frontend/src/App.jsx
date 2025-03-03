@@ -37,9 +37,8 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/donation" element={<DonationPage/>}/>
-            <Route path="/campaigns" element={<CampaignList />} />
-          </Route>
+            <Route path="/donation/:campaignId" element={<DonationPage />} />
+            </Route>
 
           {/* Private Routes - Only Accessible to Authenticated Users */}
           <Route element={<PrivateRoute />}>
