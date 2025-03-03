@@ -8,7 +8,9 @@ import Contact from "./pages/Contact";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
+import DonationPage from "./pages/donation";
 import Navbar from "./components/Navbar";
+
 
 const App = () => {
   return (
@@ -23,7 +25,8 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-          </Route>
+            <Route path="/donation/:campaignId" element={<DonationPage />} />
+            </Route>
 
           {/* Private Routes - Only Accessible to Authenticated Users */}
           <Route element={<PrivateRoute />}>
