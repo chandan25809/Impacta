@@ -1,4 +1,4 @@
-import React, { useState, createElement } from 'react';
+import React, { useState, useEffect, createElement } from 'react';
 import {
   Row,
   Col,
@@ -15,17 +15,16 @@ import {
   Tooltip,
   Modal
 } from 'antd';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
-import 'antd/dist/reset.css'; // For Ant Design v5
+import 'antd/dist/reset.css';
+import DonationStepForm from '../components/DonationStepForm';
 
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
-/** 
- * A custom comment component that mimics the removed antd Comment
- * component, including like/dislike actions.
- */
 const DonationComment = ({ author, avatar, content, datetime }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
@@ -80,123 +79,161 @@ const DonationComment = ({ author, avatar, content, datetime }) => {
   );
 };
 
-const GoFundMeLikePage = () => {
-  // -----------------------
-  // Dummy donation data
-  // -----------------------
-  const totalRaised = 2080;
-  const goal = 10000;
-  const totalDonations = 32; // e.g., total donation count
-  const progressPercentage = Math.round((totalRaised / goal) * 100);
-
-  // -----------------------
-  // Dummy donors
-  // -----------------------
-  const donors = [
-    { id: uuidv4(), name: 'Jean Durico', amount: 100 },
-    { id: uuidv4(), name: 'Rose Cortez', amount: 50 },
-    { id: uuidv4(), name: 'Anonymous', amount: 200 },
-    { id: uuidv4(), name: 'Betty Jo Nash', amount: 30 },
-    // ... Add more donors if you want a longer list
-  ];
-
-  // -----------------------
-  // Comments State
-  // -----------------------
-  const [comments, setComments] = useState([
-    {
-      id: uuidv4(),
-      author: 'John Doe',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: "Great cause! I'm happy to support this campaign.",
-      createdAt: new Date().toLocaleString(),
-    },
-    {
-      id: uuidv4(),
-      author: 'Jane Smith',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: 'Amazing initiative. Best of luck!',
-      createdAt: new Date().toLocaleString(),
-    },
-  ]);
+const DonationPage = () => {
+  const { campaignId } = useParams();
+  const [campaign, setCampaign] = useState(null);
+  const [mediaFiles, setMediaFiles] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [isStepModalVisible, setIsStepModalVisible] = useState(false);
 
   const [commentForm] = Form.useForm();
 
-  // -----------------------
-  // Handle comment submission
-  // -----------------------
-  const onFinishComment = (values) => {
-    const newComment = {
-      id: uuidv4(),
-      author: 'User', // In a real app, replace with the logged-in user's name
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: values.comment,
-      createdAt: new Date().toLocaleString(),
+  useEffect(() => {
+    const fetchCampaignData = async () => {
+      try {
+        const campaignRes = await axios.get(`/api/campaigns/detail/${campaignId}`);
+        console.log("Campaign data",campaignRes)
+        setCampaign(campaignRes.data.campaign);
+
+        const mediaRes = await axios.get(`/api/campaigns/${campaignId}/mediafiles`);
+        setMediaFiles(mediaRes.data);
+
+        const commentsRes = await axios.get(`/api/campaigns/${campaignId}/comments`);
+        console.log("comments",commentsRes)
+        setComments(
+          commentsRes.data.comments.map(comment => ({
+            id: comment.ID,
+            author: comment.User.FullName,
+            avatar: 'https://joeschmoe.io/api/v1/random',
+            content: comment.Content,
+            createdAt: new Date(comment.CreatedAt).toLocaleString(),
+          }))
+        );
+
+        const donationsRes = await axios.get(`/api/campaigns/detail/${campaignId}/donations`);
+        setDonations(
+          donationsRes.data.donations.map(donation => ({
+            id: donation.ID,
+            name: donation.Donor.FullName,
+            amount: donation.Amount,
+            createdAt: new Date(donation.CreatedAt).toLocaleString(),
+          }))
+        );
+      } catch (error) {
+        console.error('Error fetching campaign data:', error);
+        AntMessage.error('Failed to load campaign data.');
+      }
     };
-    setComments([...comments, newComment]);
-    commentForm.resetFields();
-    AntMessage.success('Comment added!');
+
+    if (campaignId) {
+      fetchCampaignData();
+    }
+  }, [campaignId]);
+
+  const onFinishComment = async (values) => {
+    try {
+      const commentData = {
+        CampaignID: campaignId,
+        UserID: 'dummy-user-id',
+        Content: values.comment,
+      };
+      await axios.post(
+        `/api/campaigns/${campaignId}/comments`,
+        commentData,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      AntMessage.success('Comment added!');
+      commentForm.resetFields();
+      setComments(prev => [
+        ...prev,
+        {
+          id: uuidv4(),
+          author: 'User',
+          avatar: 'https://joeschmoe.io/api/v1/random',
+          content: commentData.Content,
+          createdAt: new Date().toLocaleString(),
+        }
+      ]);
+    } catch (error) {
+      console.error('Comment submission error:', error);
+      AntMessage.error('Failed to add comment.');
+    }
   };
 
-  // -----------------------
-  // Modal state for "See all" donations
-  // -----------------------
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handlePaymentApproved = async ({
+    paymentDetails,
+    donationAmount,
+    donationCurrency,
+    donationMessage
+  }) => {
+    console.log('Payment successful:', paymentDetails);
+    const { payer } = paymentDetails;
+    const donorEmail = payer.email_address;
+    const donorFullName = `${payer.name.given_name} ${payer.name.surname}`;
 
-  const showAllDonations = () => {
-    setIsModalVisible(true);
+    try {
+      await axios.post(
+        '/api/register',
+        {
+          email: donorEmail,
+          full_name: donorFullName,
+          role: 'donor'
+        },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      await axios.post(
+        '/api/donations',
+        {
+          campaign_id: campaignId,
+          donor_name: donorFullName,
+          email: donorEmail,
+          amount: donationAmount,
+          currency: donationCurrency,
+          message: donationMessage || 'Supporting the cause!',
+          is_anonymous: false
+        },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      AntMessage.success('Donation recorded successfully!');
+    } catch (error) {
+      console.error('Error recording donation:', error);
+      AntMessage.error('Failed to record donation.');
+    }
+    setIsStepModalVisible(false);
   };
 
-  const handleModalClose = () => {
-    setIsModalVisible(false);
-  };
+  const totalRaised = campaign ? campaign.CurrentAmount : 0;
+  const goal = campaign ? campaign.TargetAmount : 0;
+  const progressPercentage = goal > 0 ? Math.round((totalRaised / goal) * 100) : 0;
+  const totalDonations = donations.length;
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 24, background: "white" }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 24, background: 'white' }}>
       <Row gutter={[24, 24]}>
-        {/* LEFT COLUMN */}
         <Col xs={24} md={16}>
-          {/* Main Campaign Card */}
           <Card
             bordered={false}
             cover={
               <img
                 alt="Campaign Banner"
-                src="https://images.gofundme.com/FRTOEsRb4VcJ5RDwaspV9bOGPMc=/720x405/https://d2g8igdw686xgo.cloudfront.net/74883377_1692651226905050_r.jpeg"
+                src={
+                  mediaFiles.find(file => file.FileType === 'banner')
+                    ? mediaFiles.find(file => file.FileType === 'banner').URL
+                    : 'https://via.placeholder.com/900x400.png?text=Campaign+Banner'
+                }
                 style={{ objectFit: 'cover' }}
               />
             }
             style={{ marginBottom: 24 }}
           >
-            <Title level={3}>Celebrate Heather Jennings' Life and Legacy</Title>
-            <Paragraph>
-              My mother, Heather Jennings, was an incredible person who dedicated her life to
-              serving the community. On December 3rd 2024, a disastrous event took her away
-              from us too soon. In honor of her memory and her passion for helping others, we
-              have created this fund to continue her legacy.
-            </Paragraph>
-            <Paragraph>
-              Heather was known for her kindness, compassion, and dedication to bringing people
-              together. She loved volunteering at the local radio station, organizing community
-              events, and inspiring others to be their best. Please join us in celebrating her
-              life by contributing to a cause that meant so much to her.
-            </Paragraph>
-            <Paragraph>
-              All funds raised will go toward supporting local radio programming, community
-              outreach, and a scholarship in Heather's name. Any amount is appreciated, and we
-              thank you for your generosity and support.
-            </Paragraph>
+            <Title level={3}>{campaign ? campaign.Title : 'Loading campaign...'}</Title>
+            <Paragraph>{campaign ? campaign.Description : ''}</Paragraph>
           </Card>
-
-          {/* Organizer and Beneficiary Section */}
           <Card style={{ marginBottom: 24 }}>
             <Title level={4}>Organizer and beneficiary</Title>
             <div style={{ display: 'flex', marginBottom: 16 }}>
-              <Avatar
-                size={48}
-                src="https://joeschmoe.io/api/v1/jane"
-                style={{ marginRight: 16 }}
-              />
+              <Avatar size={48} src="https://joeschmoe.io/api/v1/jane" style={{ marginRight: 16 }} />
               <div>
                 <Text strong>Dixie Jennings</Text>
                 <br />
@@ -207,11 +244,7 @@ const GoFundMeLikePage = () => {
             </div>
             <Divider />
             <div style={{ display: 'flex', marginBottom: 16 }}>
-              <Avatar
-                size={48}
-                src="https://joeschmoe.io/api/v1/random"
-                style={{ marginRight: 16 }}
-              />
+              <Avatar size={48} src="https://joeschmoe.io/api/v1/random" style={{ marginRight: 16 }} />
               <div>
                 <Text strong>Joey Jennings</Text>
                 <br />
@@ -219,8 +252,6 @@ const GoFundMeLikePage = () => {
               </div>
             </div>
           </Card>
-
-          {/* Comments Section */}
           <Card title="Comments">
             <List
               dataSource={comments}
@@ -236,9 +267,7 @@ const GoFundMeLikePage = () => {
               )}
               locale={{ emptyText: 'No comments yet. Be the first to comment!' }}
             />
-
-            {/* Add a Comment */}
-            <Card type="inner" title="Add a Comment" style={{ marginTop: '20px' }}>
+            <Card type="inner" title="Add a Comment" style={{ marginTop: 20 }}>
               <Form form={commentForm} layout="vertical" onFinish={onFinishComment}>
                 <Form.Item
                   name="comment"
@@ -255,10 +284,7 @@ const GoFundMeLikePage = () => {
             </Card>
           </Card>
         </Col>
-
-        {/* RIGHT COLUMN */}
         <Col xs={24} md={8}>
-          {/* Donation Summary */}
           <Card style={{ marginBottom: 24 }}>
             <Title level={4} style={{ marginBottom: 0 }}>
               ${totalRaised.toLocaleString()} raised
@@ -266,37 +292,40 @@ const GoFundMeLikePage = () => {
             <Text type="secondary">
               ${goal.toLocaleString()} target • {totalDonations} donations
             </Text>
-
             <Progress
               percent={progressPercentage}
               showInfo={false}
               strokeColor={{
                 '0%': '#108ee9',
-                '100%': '#87d068',
+                '100%': '#87d068'
               }}
               style={{ marginTop: 8 }}
             />
-
             <div style={{ marginTop: 16 }}>
-              <Button type="primary" block style={{ marginBottom: 8 }}>
+              <Button
+                type="primary"
+                block
+                onClick={() => setIsStepModalVisible(true)}
+                style={{ marginBottom: 8 }}
+              >
                 Donate now
               </Button>
-              <Button type="primary" block>Share</Button>
+              <Button type="primary" block>
+                Share
+              </Button>
             </div>
           </Card>
-
-          {/* Recent Donations */}
           <Card
             title="Recent donations"
             extra={
-              <Button type="primary" onClick={showAllDonations}>
+              <Button type="primary" onClick={() => setIsStepModalVisible(true)}>
                 See all
               </Button>
             }
           >
             <List
               itemLayout="horizontal"
-              dataSource={donors.slice(0, 3)} // Show only the first 3 for "recent"
+              dataSource={donations.slice(0, 3)}
               renderItem={(donor) => (
                 <List.Item key={donor.id}>
                   <List.Item.Meta
@@ -315,40 +344,21 @@ const GoFundMeLikePage = () => {
         </Col>
       </Row>
 
-      {/* MODAL: Full Donations List */}
       <Modal
-        title={`Donations (${donors.length})`}
-        open={isModalVisible}
-        onCancel={handleModalClose}
+        title="Donations"
+        open={isStepModalVisible}
+        onCancel={() => setIsStepModalVisible(false)}
         footer={null}
-        width={500}
+        width={600}
       >
-        <List
-          itemLayout="horizontal"
-          dataSource={donors}
-          style={{ maxHeight: '300px', overflowY: 'auto' }}
-          renderItem={(donor) => (
-            <List.Item key={donor.id}>
-              <List.Item.Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={
-                  <Text strong>
-                    {donor.name} donated ${donor.amount}
-                  </Text>
-                }
-                description="3 days ago"
-              />
-            </List.Item>
-          )}
+        <DonationStepForm
+          campaignCurrency={campaign ? campaign.Currency : 'USD'}
+          onPaymentApproved={handlePaymentApproved}
+          onCancel={() => setIsStepModalVisible(false)}
         />
-        <div style={{ textAlign: 'center', marginTop: 16 }}>
-          <Button type="primary" onClick={() => AntMessage.info('Redirect to donation flow')}>
-            Donate now
-          </Button>
-        </div>
       </Modal>
     </div>
   );
 };
 
-export default GoFundMeLikePage;
+export default DonationPage;
