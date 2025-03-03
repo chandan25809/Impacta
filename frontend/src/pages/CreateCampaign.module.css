@@ -40,9 +40,13 @@
   
   /* 🔽 Upload Text */
   .uploadText {
-    color: #f9f6f6;
-    font-size: 14px;
-    margin-top: 5px;
+  word-break: break-all;       /* Allow long URLs to wrap */
+  overflow-wrap: break-word;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  max-width: 100%;
+  display: inline-block;
   }
   
   /* 📌 Submit Button */

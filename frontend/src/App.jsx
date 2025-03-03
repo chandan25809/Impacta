@@ -9,19 +9,21 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import CreateCampaign from "./pages/CreateCampaign";
+import DonationPage from "./pages/donation"
 import Navbar from "./components/Navbar";
+import CampaignList from './pages/CampaignList';
 
 const App = () => {
-  const [userRole, setUserRole] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [userRole, setUserRole] = useState(null);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const storedRole = localStorage.getItem("userRole");
-    if (storedRole) {
-      setUserRole(storedRole);
-      setIsAuthenticated(true); // ✅ Set user as logged in
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedRole = localStorage.getItem("userRole");
+  //   if (storedRole) {
+  //     setUserRole(storedRole);
+  //     setIsAuthenticated(true); // ✅ Set user as logged in
+  //   }
+  // }, []);
 
   return (
       <>
@@ -36,6 +38,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/donation" element={<DonationPage/>}/>
+            <Route path="/campaigns" element={<CampaignList />} />
           </Route>
 
           {/* Private Routes - Only Accessible to Authenticated Users */}

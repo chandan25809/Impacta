@@ -83,7 +83,7 @@ const Dashboard = () => {
       </div>
 
       {/* 📝 Floating "Create Campaign" Button */}
-    <Link to="/create-campaign">
+    <Link to="/createcampaign">
       <Button
         className={styles["create-campaign-btn"]}
         type="primary"
