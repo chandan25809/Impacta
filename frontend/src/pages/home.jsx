@@ -9,7 +9,7 @@ const Home = () => {
   const handleNavigation = () => {
     navigate("/register"); // Redirects to the login page
   };
-
+   
   return <>
   <meta charSet="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -411,10 +411,12 @@ const Home = () => {
             </div>
           </div>
           <div className="text-center mt-12">
-            <button className="bg-neutral-900 text-white px-8 py-3 rounded-lg hover:bg-neutral-800 transition-colors duration-300">
-              View All Campaigns
-            </button>
-          </div>
+        <Link to="/campaigns">
+          <button className="bg-neutral-900 text-white px-8 py-3 rounded-lg hover:bg-neutral-800 transition-colors duration-300">
+            View All Campaigns
+          </button>
+        </Link>
+       </div>
         </div>
       </section>
     </div>

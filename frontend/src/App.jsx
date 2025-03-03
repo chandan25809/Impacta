@@ -3,16 +3,28 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Home from "./pages/home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import About from "./pages/about";
+import Contact from "./pages/contact";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
-import DonationPage from "./pages/donation";
+import CreateCampaign from "./pages/CreateCampaign";
+import DonationPage from "./pages/donation"
 import Navbar from "./components/Navbar";
-
+import CampaignList from './pages/CampaignList';
 
 const App = () => {
+  // const [userRole, setUserRole] = useState(null);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // useEffect(() => {
+  //   const storedRole = localStorage.getItem("userRole");
+  //   if (storedRole) {
+  //     setUserRole(storedRole);
+  //     setIsAuthenticated(true); // ✅ Set user as logged in
+  //   }
+  // }, []);
+
   return (
       <>
         {/* <Navbar /> */}
@@ -31,6 +43,7 @@ const App = () => {
           {/* Private Routes - Only Accessible to Authenticated Users */}
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/createcampaign" element={<CreateCampaign />} />
           </Route>
         </Routes>
       </>
