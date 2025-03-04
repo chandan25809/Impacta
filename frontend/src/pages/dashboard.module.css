@@ -1,142 +1,177 @@
 /* 🌟 Dashboard Container */
 .dashboard-container {
-    padding: 40px;
-    text-align: center;
-    background-color: #1a1a1a; /* Dark background */
-    min-height: 100vh;
-  }
-  
-  /* 📌 Dashboard Title */
-  .dashboard-title {
-    color: #ffc107; /* Yellow color */
-    font-size: 32px;
-    font-weight: bold;
-  }
-  
-  /* 🏆 Space between title and cards */
-  .dashboard-space {
-    height: 30px;
-  }
-  
-  /* 🎁 Donation Cards */
-  .donation-card {
-    background-color: white;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.15);
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
-    width: 100%; /* Increased width */
-    height: 300px; /* Increased height */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .donation-card:hover {
-    transform: scale(1.05);
-  }
-  
-  /* 📌 Donation Name */
-  .donation-name {
-    color: #007bff;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* 💰 Your Contribution */
-  .donation-label {
-    display: block;
-    font-weight: bold;
-    margin-top: 10px;
-    color:#ff9800;
-  }
-  
-  /* 💵 Donation Amount */
-  .donation-amount {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ff9800;
-  }
-  
-  /* 🎯 Beneficiary */
-  .donation-beneficiary {
-    font-size: 16px;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  /* 🔗 View More Button (Inside the card and yellow) */
-  .view-more-container {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .view-more {
-    color: #007bff !important;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 16px;
-  }
-  
-  .view-more:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive Design for Mobile */
-  @media (max-width: 500px) {
-    .donation-card {
-      height: auto;
-      padding: 20px;
-    }
-  }
-  h2:where(.css-dev-only-do-not-override-1htoz2s).ant-typography, div:where(.css-dev-only-do-not-override-1htoz2s).ant-typography-h2, div:where(.css-dev-only-do-not-override-1htoz2s).ant-typography-h2>textarea, :where(.css-dev-only-do-not-override-1htoz2s).ant-typography h2 {
-    margin-bottom: 0.5em;
-    color: #ff9800;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 1.2666666666666666;
-  }
-  /* 🌟 Dashboard Container */
-.dashboard-container {
-    padding: 40px;
-    text-align: center;
-    background-color: #1a1a1a; /* Dark background */
-    min-height: 100vh;
+  position: relative;
+  background-image: url('../assets/dashboard-bg.jpg'); /* ✅ Background Image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* ✅ Keeps the background fixed */
+  min-height: 100vh;
+  width: 100%;
+  overflow-y: auto; /* ✅ Ensures the content inside scrolls */
+  padding: 20px;
 }
 
-/* 👋 Hello Donor Section */
-.hello-donor-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 15px;
+/* 🔥 Fix Overlay */
+.dashboard-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background: rgba(0, 0, 0, 0.4); /* ✅ Dark overlay (Fix readability) */
+  z-index: 1; /* ✅ Ensure it appears behind content */
 }
 
-.hello-donor-icon {
-    width: 50px; /* Adjust size as needed */
-    height: 50px;
+/* ✅ Fix Greeting Message & Subtitle */
+.welcome-text {
+  font-size: 28px;
+  font-weight: bold;
+  color: white; 
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2; 
+  text-align: center;
 }
 
-.hello-donor-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffc107; /* Yellow to match the theme */
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.dashboard-subtitle {
+  font-size: 18px;
+  color: #ddd;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+  text-align: center;
 }
 
-.hello-donor-text::after {
-    content: "\1F44B"; /* Unicode for waving hand emoji */
-    font-size: 24px;
-} 
+/* ✅ Fix Campaign Cards Layout */
+.campaign-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
 
-/* 📌 Dashboard Title */
-.dashboard-title {
-    color: #ffc107; /* Yellow color */
-    font-size: 32px;
-    font-weight: bold;
+/* ✅ Fix Donation Card */
+.donation-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(210, 199, 199, 0.1);
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+/* ✅ Fix Funds Raised & Status Alignment */
+.funds-raised, .status-container {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ✅ Fix Campaign Title & Labels */
+.donation-name {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donation-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ✅ Fix Campaign Status Styling */
+.campaign-status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* ✅ Different Status Colors */
+.status-active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-completed {
+  background-color: #007bff;
+  color: white;
+}
+
+/* ✅ Fix Button Styling */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.manage-btn, .analytics-btn {
+  background-color: black;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.manage-btn:hover, .analytics-btn:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+/* 📊 Stats Section */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stats-card {
+  width: 200px;
+  text-align: center;
+  background-color: rgba(250, 249, 249, 0.9);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* 📝 Floating Create Campaign Button */
+.create-campaign-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 3;
 }

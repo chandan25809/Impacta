@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://1404-2600-8807-c185-f00-7983-161f-404e-87d0.ngrok-free.app",
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
@@ -19,5 +19,10 @@ export default defineConfig({
         },
       }
     }
-  }
+  },
+  test: {
+    globals: true,            
+    environment: 'jsdom',     
+    setupFiles: './src/setupTests.js',  
+  },
 });
