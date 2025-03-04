@@ -9,6 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 	// "github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"errors"
+    "gorm.io/gorm"
+
 )
 
 func RegisterUser(c *gin.Context) {
@@ -17,7 +20,7 @@ func RegisterUser(c *gin.Context) {
 		Email    string `json:"email" binding:"required,email"`
 		Password string `json:"password,omitempty"` // No "required" tag
 		FullName string `json:"full_name" binding:"required"`
-		Role     string `json:"role,omitempty"` // Optional; defaults to "donor"
+		Role     string `json:"role,omitempty"`     // Optional; defaults to "donor"
 	}
 
 	// Bind the input JSON
@@ -26,7 +29,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	// Default the role to "donor" if not provided
+	// Default the role if not provided
 	if input.Role == "" {
 		input.Role = "campaign_creator"
 	}
@@ -38,7 +41,29 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	// Ensure passwords are provided for roles other than "donor"
+	// Check if a user with the given email already exists
+	var existingUser models.User
+	err := utils.DB.Where("email = ?", input.Email).First(&existingUser).Error
+	if err == nil {
+		// User already exists. Return a token for this user.
+		token, tokenErr := utils.GenerateToken(existingUser.ID.String(), existingUser.Email, existingUser.Role)
+		if tokenErr != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "User already registered. Returning existing token.",
+			"token":   token,
+		})
+		return
+	} else if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		// Some other database error
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check user existence"})
+		return
+	}
+
+	// No existing user found; proceed with creating a new one
 	var hashedPassword string
 	if input.Role != "donor" {
 		if input.Password == "" {
@@ -54,7 +79,7 @@ func RegisterUser(c *gin.Context) {
 		}
 		hashedPassword = string(hashed)
 	}
-	
+
 	// Create the user record
 	user := models.User{
 		Email:        input.Email,
@@ -70,20 +95,29 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
+	// Generate a token for the newly registered user
+	token, err := utils.GenerateToken(user.ID.String(), user.Email, user.Role)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
 	// Respond with success
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User registered successfully",
+		"token":   token,
 		"user": gin.H{
-			"id":        user.ID,
-			"email":     user.Email,
-			"full_name": user.FullName,
-			"role":      user.Role,
-			"status":    user.Status,
+			"id":         user.ID,
+			"email":      user.Email,
+			"full_name":  user.FullName,
+			"role":       user.Role,
+			"status":     user.Status,
 			"created_at": user.CreatedAt,
 			"updated_at": user.UpdatedAt,
 		},
 	})
 }
+
 
 
 
