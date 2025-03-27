@@ -8,8 +8,8 @@ import Contact from "./pages/contact";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
+import DonationPage from "./pages/donation";
 import CreateCampaign from "./pages/CreateCampaign";
-import DonationPage from "./pages/donation"
 import Navbar from "./components/Navbar";
 // import CampaignList from './pages/CampaignList';
 
@@ -38,6 +38,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/donation/:campaignId" element={<DonationPage />} />
+            <Route path="/createcampaign" element={<CreateCampaign />} />
             </Route>
 
           {/* Private Routes - Only Accessible to Authenticated Users */}

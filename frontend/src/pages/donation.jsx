@@ -111,6 +111,7 @@ const DonationPage = () => {
         );
 
         const donationsRes = await axios.get(`/api/campaigns/detail/${campaignId}/donations`);
+        console.log("donations",donationsRes.data.donations)
         setDonations(
           donationsRes.data.donations.map(donation => ({
             id: donation.ID,
@@ -138,7 +139,7 @@ const DonationPage = () => {
         Content: values.comment,
       };
       await axios.post(
-        `/api/campaigns/${campaignId}/comments`,
+        `/api/comments`,
         commentData,
         { headers: { 'Content-Type': 'application/json' } }
       );
