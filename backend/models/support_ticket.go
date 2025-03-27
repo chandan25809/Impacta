@@ -16,7 +16,8 @@ type SupportTicket struct {
 	Query      string    `gorm:"type:text"`  // New field for the query
 	Answer     string    `gorm:"type:text"`  // New field for the answer
 	CreatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
-	UpdatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	UpdatedAt  time.Time `gorm:"autoUpdateTime"`
+
 }
 
 func (SupportTicket) TableName() string {

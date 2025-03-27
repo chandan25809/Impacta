@@ -14,5 +14,5 @@ type Notification struct {
 	IsRead    bool      `gorm:"type:boolean;default:false"`
 	Status    string    `gorm:"type:varchar(50);default:'unread'"` // unread, read, deleted
 	CreatedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP"`
-	UpdatedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
