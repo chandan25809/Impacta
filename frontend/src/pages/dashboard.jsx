@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import for navigation
 import { Card, Col, Row, Typography, Button } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import styles from "../pages/dashboard.module.css"; // ✅ CSS Module Import
 import { Link } from "react-router-dom";
 
@@ -21,8 +22,31 @@ const stats = {
 };
 
 const Dashboard = () => {
+  const navigate = useNavigate(); // ✅ Hook for navigation
+
+  // ✅ Logout Function
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("userRole"); 
+    navigate("/login"); 
+  };
+
   return (
     <div className={styles["dashboard-container"]}>
+      
+      {/* ✅ Home & Logout Buttons */}
+      <div className={styles["nav-buttons"]}>
+      <Link to="/">
+        <Button type="text" icon={<HomeOutlined />}>
+          Home
+        </Button>
+      </Link>
+
+        <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} danger>
+          Logout
+        </Button>
+      </div>
+
       {/* Greeting Message */}
       <Title level={2} className={styles["welcome-text"]}>
         Welcome Back, Campaign Creator! 🎉
@@ -83,15 +107,11 @@ const Dashboard = () => {
       </div>
 
       {/* 📝 Floating "Create Campaign" Button */}
-    <Link to="/createcampaign">
-      <Button
-        className={styles["create-campaign-btn"]}
-        type="primary"
-        icon={<PlusCircleOutlined />}
-      >
-        Create Campaign
-      </Button>
-      </Link> 
+      <Link to="/createcampaign">
+        <Button className={styles["create-campaign-btn"]} type="primary" icon={<PlusCircleOutlined />}>
+          Create Campaign
+        </Button>
+      </Link>
     </div>
   );
 };

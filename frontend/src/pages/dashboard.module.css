@@ -23,6 +23,37 @@
   /*background: rgba(0, 0, 0, 0.4); /* ✅ Dark overlay (Fix readability) */
   z-index: 1; /* ✅ Ensure it appears behind content */
 }
+/* ✅ Navbar Buttons (Home & Logout) */
+/* ✅ Navbar Buttons (Home & Logout) */
+/* ✅ Navbar Buttons (Home & Logout) */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between; /* ✅ Home on left, Logout on right */
+  align-items: center;
+  padding: 10px 20px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+}
+
+/* ✅ Remove Button Background */
+.nav-buttons button {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+  color: white;
+  font-size: 16px;
+}
+
+/* ✅ Style Link (for Home Button) */
+.nav-buttons .nav-link {
+  text-decoration: none;
+}
+
+
+
+
 
 /* ✅ Fix Greeting Message & Subtitle */
 .welcome-text {
@@ -39,7 +70,7 @@
   font-size: 18px;
   color: #ddd;
   margin-bottom: 30px;
-  position: relative;
+  position: center;
   z-index: 2;
   text-align: center;
 }
