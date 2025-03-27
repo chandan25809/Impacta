@@ -11,7 +11,7 @@ import Dashboard from "./pages/dashboard";
 import CreateCampaign from "./pages/CreateCampaign";
 import DonationPage from "./pages/donation"
 import Navbar from "./components/Navbar";
-import CampaignList from './pages/CampaignList';
+// import CampaignList from './pages/CampaignList';
 
 const App = () => {
   // const [userRole, setUserRole] = useState(null);
