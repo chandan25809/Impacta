@@ -36,9 +36,12 @@ const Dashboard = () => {
       
       {/* ✅ Home & Logout Buttons */}
       <div className={styles["nav-buttons"]}>
-      <Button type="text" icon={<HomeOutlined />} onClick={() => navigate("/")}>
-        Home
-      </Button>
+      <Link to="/">
+        <Button type="text" icon={<HomeOutlined />}>
+          Home
+        </Button>
+      </Link>
+
         <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} danger>
           Logout
         </Button>
