@@ -83,5 +83,12 @@ func SetupRouter() *gin.Engine {
 	protected.PUT("/paymenttransactions/:id", controllers.UpdatePaymentTransaction)          // Admin-only update
 	protected.DELETE("/paymenttransactions/bulk", controllers.BulkDeletePaymentTransactions) // Admin-only bulk delete
 
+	// Withdrawals Protected routes (admin-only for update and bulk deletion)
+	protected.POST("/withdrawals", controllers.CreateWithdrawal)             // Create a Withdrawal
+	protected.GET("/withdrawals/:id", controllers.GetWithdrawalByID)         // Get Withdrawal by ID
+	protected.GET("/withdrawals", controllers.ListWithdrawals)               // List Withdrawals (optional filter by campaign_id)
+	protected.PUT("/withdrawals/:id", controllers.UpdateWithdrawal)          // Admin-only update
+	protected.DELETE("/withdrawals/bulk", controllers.BulkDeleteWithdrawals) // Admin-only bulk delete
+
 	return r
 }
