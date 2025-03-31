@@ -15,16 +15,19 @@ In Sprint 3, we significantly enhanced our crowdfunding platform by integrating 
  | Issue # | Task Description                                                                                                  | Assigned To         | Status        |
  |---------|-------------------------------------------------------------------------------------------------------------------|---------------------|---------------|
  | *Frontend Tasks* |                                                                                                  |                     |               |
- | S2-F01  | Created Admin Analytics Dashboard with four key graphs: Campaign Performance by Category, Campaign Creation Trends, Campaign Success Distribution, and Daily Revenue by Category.                                              | Vennela             | ✅ Completed  |
- | S2-F02  | Developed a grouped bar chart for Campaign Performance by Category to display counts of Approved, Pending, and Completed campaigns for each category.                            | Vennela             | ✅ Completed  |
- | S2-F03  | Developed a line chart to visualize Campaign Creation Trends over time based on campaign creation dates.                                                    | Vennela             | ✅ Completed  |
- | S2-F04  | Developed a donut chart to visualize Campaign Success Distribution by aggregating approved vs. non-approved campaigns.                                                       | Vennela             | ✅ Completed  |
- | S2-F05  | Developed a point (scatter) chart to display Daily Revenue by Category, showing revenue trends similar to a stock market chart.                               | Vennela             | ✅ Completed  |
- | S2-F06  | Integrated right-side navigation with API endpoints for notifications and other services, ensuring seamless data updates.                                                                   | Vennela             | ✅ Completed  |
- | S2-F07  | Created a left-side navigation panel for handling restricted and unrestricted routes based on user roles.                                         | Deepthi             | ✅ Completed  |
- | S2-F08  | Developed a Campaigns Dashboard displaying detailed campaign information where admin users can edit (approve/reject) campaigns and regular users have view-only access.                               | Deepthi             | ✅ Completed  |
- | S2-F09  | Implemented admin functionality to edit campaigns – allowing only admins to change campaign status (defaulting to Pending, with options to approve or reject). | Deepthi             | ✅ Completed  |
- | S2-F10  | Implemented admin functionality to edit donations – allowing only admins to modify donation statuses (defaulting to Pending, with options to approve or reject).                    | Deepthi             | ✅ Completed  |
+ | S3-F01  | Created the Admin Analytics Dashboard with four key charts.                                             | Vennela             | ✅ Completed  |
+| S3-F02  | Developed a grouped bar chart for Campaign Performance by Category (displaying counts of Approved, Pending, and Completed campaigns per category).                            | Vennela             | ✅ Completed  |
+| S3-F03  | Developed a line chart for Campaign Creation Trends over time.                                                    | Vennela             | ✅ Completed  |
+| S3-F04  | Developed a donut chart for Campaign Success Distribution                                                       | Vennela             | ✅ Completed  |
+| S3-F05  | Developed a point (scatter) chart for Daily Revenue by Category                               | Vennela             | ✅ Completed  |
+| S3-F06  | Integrated right-side navigation with API endpoints for notifications                                                                   | Vennela             | ✅ Completed  |
+| S3-F07  | Created a left-side navigation panel for handling restricted and unrestricted routes.                                         | Deepthi             | ✅ Completed  |
+| S3-F08  | Developed a Campaigns Dashboard where admin users can edit (approve/reject) campaigns and regular users have view-only access.                               | Deepthi             | ✅ Completed  |
+| S3-F09  | Implemented admin functionality to edit campaigns (status updates defaulting to Pending with options to approve/reject). | Deepthi             | ✅ Completed  |
+| S3-F10  | Implemented admin functionality to edit donations (status updates defaulting to Pending with options to approve/reject).                    | Deepthi             | ✅ Completed  |
+| S3-F11  | Integrated long-press functionality on dashboard chart components for improved interactivity.                                          | Vennela             | ✅ Completed  |
+| S3-F12  | Developed unit tests for the Analytics Dashboard components using Vitest and React Testing Library.                                                                             | Vennela             | ✅ Completed  |
+| S3-F13  | Developed end-to-end tests for the Analytics Dashboard using Cypress                                                                      | Vennela             | ✅ Completed  |
  | *Backend Tasks*  |                                                                                                  |                     |               |
  | S3-B01      | Implement full CRUD endpoints for Notifications                                                            | Chandan         | ✅ Completed  |
 | S3-B02      | Create unit tests for Notifications endpoints                                                              | Chandan         | ✅ Completed  |
