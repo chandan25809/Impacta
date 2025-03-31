@@ -1,4 +1,4 @@
-# 🌟 Impacta - Crowdfunding for Small Causes
+# ✨ Impacta - Crowdfunding for Small Causes
 Impacta is a crowdfunding platform designed to help individuals contribute to **meaningful causes**, ensuring transparency and ease of donation.
 
 ---
@@ -28,6 +28,8 @@ In Sprint 3, we significantly enhanced our crowdfunding platform by integrating 
 | S3-F11  | Integrated long-press functionality on dashboard chart components for improved interactivity.                                          | Vennela             | ✅ Completed  |
 | S3-F12  | Developed unit tests for the Analytics Dashboard components using Vitest and React Testing Library.                                                                             | Vennela             | ✅ Completed  |
 | S3-F13  | Developed end-to-end tests for the Analytics Dashboard using Cypress                                                                      | Vennela             | ✅ Completed  |
+| S3-F14  | Developed unit tests for Campaigns Dashboard using Vitest. | Deepthi | ✅ Completed  |
+| S3-F15  | Developed end-to-end tests for Campaigns Dashboard using Cypress. | Deepthi | ✅ Completed  |
  | *Backend Tasks*  |                                                                                                  |                     |               |
  | S3-B01      | Implement full CRUD endpoints for Notifications                                                            | Chandan         | ✅ Completed  |
 | S3-B02      | Create unit tests for Notifications endpoints                                                              | Chandan         | ✅ Completed  |
@@ -60,19 +62,4 @@ In Sprint 3, we significantly enhanced our crowdfunding platform by integrating 
  
  
  ---
- 
- ## 👥 Contributors
- 
- - *Vennela* - Frontend Development
- - *Deepthi* - Frontend Development
- - *Chandan* - Backend Development
- - *Shruthi* - Backend Development
- 
-   ## 🎬 Frontend Walkthrough Video
- 📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/Rl5WHgtAUi4)
- 
- ## 🎬 Backend Walkthrough Video
- 📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://www.youtube.com/watch?v=25DhEfzo-fY)
- 
- 
- 🚀 *Impacta - Empowering Small Causes, One Donation at a Time!*
+
