@@ -62,5 +62,19 @@ func SetupRouter() *gin.Engine {
 	protected.DELETE("/comments/:id", controllers.DeleteComment)
 	protected.POST("/comments", controllers.CreateComment)
 
+	//notifications Protected routes 
+	protected.POST("/notifications", controllers.CreateNotification)
+	protected.GET("/notifications/:id", controllers.GetNotificationByID)
+	protected.GET("/notifications", controllers.ListNotificationsByUser)
+	protected.PUT("/notifications/:id", controllers.UpdateNotificationByID)
+	protected.DELETE("/notifications/bulk", controllers.BulkDeleteNotifications)
+	
+	protected.POST("/support-tickets", controllers.CreateSupportTicket)
+	protected.GET("/support-tickets/:id", controllers.GetSupportTicketByID)
+	protected.GET("/support-tickets", controllers.ListSupportTickets)
+	protected.PUT("/support-tickets/:id", controllers.UpdateSupportTicketByID)
+	protected.DELETE("/support-tickets/bulk", controllers.BulkDeleteSupportTickets)
+	
+
 	return r
 }

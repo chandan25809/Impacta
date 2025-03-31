@@ -86,7 +86,6 @@ const DonationPage = () => {
   const [donations, setDonations] = useState([]);
   const [comments, setComments] = useState([]);
   const [isStepModalVisible, setIsStepModalVisible] = useState(false);
-
   const [commentForm] = Form.useForm();
 
   useEffect(() => {
