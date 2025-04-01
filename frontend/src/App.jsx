@@ -7,7 +7,7 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import Register from "./pages/register";
 import Login from "./pages/login";
-import Dashboard from "./pages/dashboard";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import DonationPage from "./pages/donation";
 import CreateCampaign from "./pages/CreateCampaign";
 import DashboardTable from "./pages/table";
@@ -33,10 +33,11 @@ const App = () => {
         {/* Private Routes with Persistent Layout */}
         <Route element={<PrivateRoute />}>
           <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             <Route path="/createcampaign" element={<CreateCampaign />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/donations" element={<DonationDashboard />} />
+            <Route path="/analyticsdashboard" element={<AnalyticsDashboard />} />
             {/* Add additional private routes here if needed */}
           </Route>
         </Route>
