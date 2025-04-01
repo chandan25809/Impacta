@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-
+import { expect } from 'vitest';
+global.expect = expect;
 // Polyfill for NodeList.prototype.includes in jsdom
 if (typeof NodeList !== 'undefined' && !NodeList.prototype.includes) {
   NodeList.prototype.includes = Array.prototype.includes;

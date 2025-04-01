@@ -28,14 +28,14 @@ const SideNav = ({ userRole }) => {
   return (
     <Sider className={styles.sider} width={250}>
       <div className={styles.logo}>
-        <Link to="/dashboard" style={{ color: "#000", textDecoration: "none" }}>
+        <Link to="/analyticsDashboard" style={{ color: "#000", textDecoration: "none" }}>
           Impacta
         </Link>
       </div>
       <div className={styles.menuContainer}>
         <Menu theme="light" mode="inline" defaultSelectedKeys={["dashboard"]}>
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/analyticsDashboard">Dashboard</Link>
           </Menu.Item>
           <Menu.Item key="campaigns" icon={<FundOutlined />}>
             <Link to="/campaigns">Campaigns</Link>
