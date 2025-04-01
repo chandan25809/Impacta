@@ -12,6 +12,8 @@ import DonationPage from "./pages/donation";
 import CreateCampaign from "./pages/CreateCampaign";
 import DashboardTable from "./pages/table";
 import AppLayout from "./pages/appLayout";
+import Campaigns from "./pages/Campaigns";
+import DonationDashboard from "./pages/donation_dashboard";
 
 const App = () => {
   return (
@@ -33,6 +35,8 @@ const App = () => {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createcampaign" element={<CreateCampaign />} />
+            <Route path="/campaigns" element={<Campaigns />} />
+            <Route path="/donations" element={<DonationDashboard />} />
             {/* Add additional private routes here if needed */}
           </Route>
         </Route>
