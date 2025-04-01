@@ -6,6 +6,7 @@ import AggregateLineChart from '../components/analytics/AnalyticsLineChart';
 import AnalyticsDonutChart from '../components/analytics/AnalyticsDonutChart';
 import AnalyticsPointChart from '../components/analytics/AnalyticsPointChart';
 import LongPressWrapper from '../components/analytics/LongPressWrapper';
+import Navbar from '../components/navbar'; // Ensure the file path is correct
 
 const { Title } = Typography;
 
@@ -85,45 +86,50 @@ const AnalyticsDashboard = () => {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Title level={2} style={{ textAlign: 'center' }}>Admin Analytics Dashboard</Title>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} md={12}>
-          <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <Title level={4}>Campaign Performance by Category</Title>
-          </div>
-          <LongPressWrapper>
-            <AnalyticsBarChart campaigns={campaignsData} />
-          </LongPressWrapper>
-        </Col>
-        <Col xs={24} md={12}>
-          <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <Title level={4}>Campaign Creation Trends</Title>
-          </div>
-          <LongPressWrapper>
-            <AggregateLineChart campaigns={campaignsData} />
-          </LongPressWrapper>
-        </Col>
-      </Row>
-      <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
-        <Col xs={24} md={12}>
-          <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <Title level={4}>Campaign Success Distribution</Title>
-          </div>
-          <LongPressWrapper>
-            <AnalyticsDonutChart campaigns={campaignsData} />
-          </LongPressWrapper>
-        </Col>
-        <Col xs={24} md={12}>
-          <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <Title level={4}>Daily Revenue by Category</Title>
-          </div>
-          <LongPressWrapper>
-            <AnalyticsPointChart revenueData={revenueData} />
-          </LongPressWrapper>
-        </Col>
-      </Row>
-    </div>
+    <>
+      <Navbar />
+      <div style={{ padding: '20px' }}>
+        <Title level={2} style={{ textAlign: 'center' }}>
+          Admin Analytics Dashboard
+        </Title>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={12}>
+            <div style={{ textAlign: 'center', marginBottom: 8 }}>
+              <Title level={4}>Campaign Performance by Category</Title>
+            </div>
+            <LongPressWrapper>
+              <AnalyticsBarChart campaigns={campaignsData} />
+            </LongPressWrapper>
+          </Col>
+          <Col xs={24} md={12}>
+            <div style={{ textAlign: 'center', marginBottom: 8 }}>
+              <Title level={4}>Campaign Creation Trends</Title>
+            </div>
+            <LongPressWrapper>
+              <AggregateLineChart campaigns={campaignsData} />
+            </LongPressWrapper>
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
+          <Col xs={24} md={12}>
+            <div style={{ textAlign: 'center', marginBottom: 8 }}>
+              <Title level={4}>Campaign Success Distribution</Title>
+            </div>
+            <LongPressWrapper>
+              <AnalyticsDonutChart campaigns={campaignsData} />
+            </LongPressWrapper>
+          </Col>
+          <Col xs={24} md={12}>
+            <div style={{ textAlign: 'center', marginBottom: 8 }}>
+              <Title level={4}>Daily Revenue by Category</Title>
+            </div>
+            <LongPressWrapper>
+              <AnalyticsPointChart revenueData={revenueData} />
+            </LongPressWrapper>
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 };
 
