@@ -1,0 +1,5 @@
+ALTER TABLE supporttickets 
+ADD COLUMN IF NOT EXISTS query TEXT;
+
+ALTER TABLE supporttickets 
+ADD COLUMN IF NOT EXISTS answer TEXT;

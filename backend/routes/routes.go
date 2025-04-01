@@ -45,22 +45,50 @@ func SetupRouter() *gin.Engine {
 	protected.GET("/users", controllers.GetAllUsers)  // Only for admin
 
 	// Campaigns (Protected Access for creation, updates, and deletion)
-	protected.POST("/campaigns", controllers.CreateCampaign) // Create a campaign
-	protected.PUT("/campaigns/detail/:id", controllers.UpdateCampaign)
-	protected.DELETE("/campaigns/detail/:id", controllers.DeleteCampaign)
+	protected.POST("/campaigns", controllers.CreateCampaign)              // Create a campaign
+	protected.PUT("/campaigns/detail/:id", controllers.UpdateCampaign)    // Update a campaign
+	protected.DELETE("/campaigns/detail/:id", controllers.DeleteCampaign) // Delete a campaign
 
-	// Donations
+	// Donations (Protected)
 	protected.GET("/user/donations", controllers.ListUserDonations) // List user's donations
 	protected.PUT("/donations/:id", controllers.UpdateDonation)     // Admin-only route to update donation
 
-	// MediaFiles protected routes: creation and bulk deletion
+	// MediaFiles Protected routes: creation and bulk deletion
 	protected.POST("/mediafiles", controllers.CreateMediaFile)
 	protected.DELETE("/mediafiles/bulk", controllers.BulkDeleteMediaFiles)
 
-	// Comments protected routes: creation, update and deletion
+	// Comments Protected routes: creation, update and deletion
 	protected.PUT("/comments/:id", controllers.UpdateComment)
 	protected.DELETE("/comments/:id", controllers.DeleteComment)
 	protected.POST("/comments", controllers.CreateComment)
+
+	// Notifications Protected routes
+	protected.POST("/notifications", controllers.CreateNotification)
+	protected.GET("/notifications/:id", controllers.GetNotificationByID)
+	protected.GET("/notifications", controllers.ListNotificationsByUser)
+	protected.PUT("/notifications/:id", controllers.UpdateNotificationByID)
+	protected.DELETE("/notifications/bulk", controllers.BulkDeleteNotifications)
+
+	// Support Tickets Protected routes
+	protected.POST("/support-tickets", controllers.CreateSupportTicket)
+	protected.GET("/support-tickets/:id", controllers.GetSupportTicketByID)
+	protected.GET("/support-tickets", controllers.ListSupportTickets)
+	protected.PUT("/support-tickets/:id", controllers.UpdateSupportTicketByID)
+	protected.DELETE("/support-tickets/bulk", controllers.BulkDeleteSupportTickets)
+
+	// Payment Transactions Protected routes (admin-only for update and bulk deletion)
+	protected.POST("/paymenttransactions", controllers.CreatePaymentTransaction)             // Create Payment Transaction
+	protected.GET("/paymenttransactions/:id", controllers.GetPaymentTransactionByID)         // Get by ID
+	protected.GET("/paymenttransactions", controllers.ListPaymentTransactions)               // List transactions, optional filter by donation_id
+	protected.PUT("/paymenttransactions/:id", controllers.UpdatePaymentTransaction)          // Admin-only update
+	protected.DELETE("/paymenttransactions/bulk", controllers.BulkDeletePaymentTransactions) // Admin-only bulk delete
+
+	// Withdrawals Protected routes (admin-only for update and bulk deletion)
+	protected.POST("/withdrawals", controllers.CreateWithdrawal)             // Create a Withdrawal
+	protected.GET("/withdrawals/:id", controllers.GetWithdrawalByID)         // Get Withdrawal by ID
+	protected.GET("/withdrawals", controllers.ListWithdrawals)               // List Withdrawals (optional filter by campaign_id)
+	protected.PUT("/withdrawals/:id", controllers.UpdateWithdrawal)          // Admin-only update
+	protected.DELETE("/withdrawals/bulk", controllers.BulkDeleteWithdrawals) // Admin-only bulk delete
 
 	return r
 }
