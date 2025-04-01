@@ -819,3 +819,563 @@ curl --location --request DELETE 'http://localhost:8080/comments/COMMENT_UUID' \
   "message": "Comment deleted successfully"
 }
 ```
+
+
+## NOTIFICATIONS
+
+### Create Notification  
+**Endpoint:** `POST /notifications` (Protected)  
+**Description:** Creates a new notification for the authenticated user.  
+**Sample Request:**
+```bash
+curl --location 'http://localhost:8080/notifications' \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "type": "new_donation",
+  "content": "You have received a new donation!"
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Notification created successfully",
+  "notification": {
+    "ID": "<NOTIF_ID>",
+    "UserID": "<USER_UUID>",
+    "Type": "new_donation",
+    "Content": "You have received a new donation!",
+    "IsRead": false,
+    "Status": "unread",
+    "CreatedAt": "2025-03-04T00:10:00Z",
+    "UpdatedAt": "2025-03-04T00:10:00Z"
+  }
+}
+```
+
+### Get Notification by ID  
+**Endpoint:** `GET /notifications/:id` (Protected)  
+**Description:** Retrieves a notification by its unique ID.  
+**Sample Request:**
+```bash
+curl --location 'http://localhost:8080/notifications/<NOTIF_ID>' \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json'
+```
+**Sample Response:**
+```json
+{
+  "notification": {
+    "ID": "<NOTIF_ID>",
+    "UserID": "<USER_UUID>",
+    "Type": "new_donation",
+    "Content": "You have received a new donation!",
+    "IsRead": false,
+    "Status": "unread",
+    "CreatedAt": "2025-03-04T00:10:00Z",
+    "UpdatedAt": "2025-03-04T00:10:00Z"
+  }
+}
+```
+
+### List Notifications by User  
+**Endpoint:** `GET /notifications?user_id=<USER_UUID>` (Protected)  
+**Description:** Retrieves all notifications for the specified user.  
+**Sample Request:**
+```bash
+curl --location 'http://localhost:8080/notifications?user_id=<USER_UUID>' \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json'
+```
+**Sample Response:**
+```json
+{
+  "notifications": [
+    {
+      "ID": "<NOTIF_ID>",
+      "UserID": "<USER_UUID>",
+      "Type": "new_donation",
+      "Content": "You have received a new donation!",
+      "IsRead": false,
+      "Status": "unread",
+      "CreatedAt": "2025-03-04T00:10:00Z",
+      "UpdatedAt": "2025-03-04T00:10:00Z"
+    }
+  ]
+}
+```
+
+### Update Notification by ID  
+**Endpoint:** `PUT /notifications/:id` (Protected)  
+**Description:** Updates an existing notification.  
+**Sample Request:**
+```bash
+curl -X PUT http://localhost:8080/notifications/<NOTIF_ID> \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "type": "campaign_update",
+  "content": "Your campaign has received an update.",
+  "is_read": true,
+  "status": "read"
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Notification updated successfully",
+  "notification": {
+    "ID": "<NOTIF_ID>",
+    "UserID": "<USER_UUID>",
+    "Type": "campaign_update",
+    "Content": "Your campaign has received an update.",
+    "IsRead": true,
+    "Status": "read",
+    "CreatedAt": "2025-03-04T00:10:00Z",
+    "UpdatedAt": "2025-03-04T00:20:00Z"
+  }
+}
+```
+
+### Bulk Delete Notifications  
+**Endpoint:** `DELETE /notifications/bulk` (Protected)  
+**Description:** Deletes multiple notifications by their IDs.  
+**Sample Request:**
+```bash
+curl -X DELETE http://localhost:8080/notifications/bulk \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "ids": ["<NOTIF_ID_1>", "<NOTIF_ID_2>"]
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Notifications deleted successfully"
+}
+```
+
+
+
+
+## SUPPORT TICKETS
+
+### Create Support Ticket  
+**Endpoint:** `POST /support-tickets` (Protected)  
+**Description:** Creates a new support ticket for the authenticated user.  
+**Sample Request:**
+```bash
+curl -X POST http://localhost:8080/support-tickets \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "campaign_id": "<CAMPAIGN_ID>",
+  "type": "dispute",
+  "priority": "high",
+  "query": "I have an issue with my campaign payment.",
+  "answer": ""
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Support ticket created successfully",
+  "ticket": {
+    "ID": "<TICKET_ID>",
+    "UserID": "<USER_UUID>",
+    "CampaignID": "<CAMPAIGN_ID>",
+    "Type": "dispute",
+    "Priority": "high",
+    "Status": "open",
+    "Query": "I have an issue with my campaign payment.",
+    "Answer": "",
+    "CreatedAt": "2025-03-04T00:30:00Z",
+    "UpdatedAt": "2025-03-04T00:30:00Z"
+  }
+}
+```
+
+### Get Support Ticket by ID  
+**Endpoint:** `GET /support-tickets/:id` (Protected)  
+**Description:** Retrieves a specific support ticket by its ID.  
+**Sample Request:**
+```bash
+curl -X GET http://localhost:8080/support-tickets/<TICKET_ID> \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "ticket": {
+    "ID": "<TICKET_ID>",
+    "UserID": "<USER_UUID>",
+    "CampaignID": "<CAMPAIGN_ID>",
+    "Type": "dispute",
+    "Priority": "high",
+    "Status": "open",
+    "Query": "I have an issue with my campaign payment.",
+    "Answer": "",
+    "CreatedAt": "2025-03-04T00:30:00Z",
+    "UpdatedAt": "2025-03-04T00:30:00Z"
+  }
+}
+```
+
+### List Support Tickets  
+**Endpoint:** `GET /support-tickets?user_id=<USER_UUID>` (Protected)  
+**Description:** Lists all support tickets for a given user.  
+**Sample Request:**
+```bash
+curl -X GET "http://localhost:8080/support-tickets?user_id=<USER_UUID>" \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "tickets": [
+    {
+      "ID": "<TICKET_ID>",
+      "UserID": "<USER_UUID>",
+      "CampaignID": "<CAMPAIGN_ID>",
+      "Type": "dispute",
+      "Priority": "high",
+      "Status": "open",
+      "Query": "I have an issue with my campaign payment.",
+      "Answer": "",
+      "CreatedAt": "2025-03-04T00:30:00Z",
+      "UpdatedAt": "2025-03-04T00:30:00Z"
+    }
+  ]
+}
+```
+
+### Update Support Ticket by ID  
+**Endpoint:** `PUT /support-tickets/:id` (Protected)  
+**Description:** Updates an existing support ticket.  
+**Sample Request:**
+```bash
+curl -X PUT http://localhost:8080/support-tickets/<TICKET_ID> \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "type": "general_query",
+  "priority": "medium",
+  "status": "resolved",
+  "query": "Updated query details.",
+  "answer": "Your issue has been resolved."
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Support ticket updated successfully",
+  "ticket": {
+    "ID": "<TICKET_ID>",
+    "UserID": "<USER_UUID>",
+    "CampaignID": "<CAMPAIGN_ID>",
+    "Type": "general_query",
+    "Priority": "medium",
+    "Status": "resolved",
+    "Query": "Updated query details.",
+    "Answer": "Your issue has been resolved.",
+    "CreatedAt": "2025-03-04T00:30:00Z",
+    "UpdatedAt": "2025-03-04T00:45:00Z"
+  }
+}
+```
+
+### Bulk Delete Support Tickets  
+**Endpoint:** `DELETE /support-tickets/bulk` (Protected)  
+**Description:** Deletes multiple support tickets based on their IDs.  
+**Sample Request:**
+```bash
+curl -X DELETE http://localhost:8080/support-tickets/bulk \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "ids": ["<TICKET_ID_1>", "<TICKET_ID_2>"]
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Support tickets deleted successfully"
+}
+```
+
+
+
+## PAYMENT TRANSACTIONS
+
+### Create Payment Transaction  
+**Endpoint:** `POST /paymenttransactions` (Protected)  
+**Description:** Creates a new payment transaction record (typically triggered during donation processing).  
+**Sample Request:**
+```bash
+curl -X POST http://localhost:8080/paymenttransactions \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "donation_id": "123e4567-e89b-12d3-a456-426614174000",
+  "gateway": "Stripe",
+  "status": "completed",
+  "amount": 100.50,
+  "currency": "USD",
+  "gateway_transaction_id": "ch_1GqIC8ABC1234XYZ"
+}'
+```
+**Sample Response:**
+```json
+{
+  "payment_transaction": {
+    "ID": "<PT_ID>",
+    "DonationID": "123e4567-e89b-12d3-a456-426614174000",
+    "Gateway": "Stripe",
+    "Status": "completed",
+    "Amount": 100.50,
+    "Currency": "USD",
+    "GatewayTransactionID": "ch_1GqIC8ABC1234XYZ",
+    "CreatedAt": "2025-03-04T00:55:00Z",
+    "UpdatedAt": "2025-03-04T00:55:00Z"
+  }
+}
+```
+
+### Get Payment Transaction by ID  
+**Endpoint:** `GET /paymenttransactions/:id` (Protected)  
+**Description:** Retrieves a payment transaction by its ID.  
+**Sample Request:**
+```bash
+curl -X GET http://localhost:8080/paymenttransactions/<PT_ID> \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "payment_transaction": {
+    "ID": "<PT_ID>",
+    "DonationID": "123e4567-e89b-12d3-a456-426614174000",
+    "Gateway": "Stripe",
+    "Status": "completed",
+    "Amount": 100.50,
+    "Currency": "USD",
+    "GatewayTransactionID": "ch_1GqIC8ABC1234XYZ",
+    "CreatedAt": "2025-03-04T00:55:00Z",
+    "UpdatedAt": "2025-03-04T00:55:00Z"
+  }
+}
+```
+
+### List Payment Transactions  
+**Endpoint:** `GET /paymenttransactions?donation_id=<DONATION_ID>` (Protected)  
+**Description:** Lists payment transactions, optionally filtered by donation_id.  
+**Sample Request:**
+```bash
+curl -X GET "http://localhost:8080/paymenttransactions?donation_id=123e4567-e89b-12d3-a456-426614174000" \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "payment_transactions": [
+    {
+      "ID": "<PT_ID>",
+      "DonationID": "123e4567-e89b-12d3-a456-426614174000",
+      "Gateway": "Stripe",
+      "Status": "completed",
+      "Amount": 100.50,
+      "Currency": "USD",
+      "GatewayTransactionID": "ch_1GqIC8ABC1234XYZ",
+      "CreatedAt": "2025-03-04T00:55:00Z",
+      "UpdatedAt": "2025-03-04T00:55:00Z"
+    }
+  ]
+}
+```
+
+### Update Payment Transaction  
+**Endpoint:** `PUT /paymenttransactions/:id` (Protected, Admin Only)  
+**Description:** Updates a payment transaction. Only admins can update these records.  
+**Sample Request:**
+```bash
+curl -X PUT http://localhost:8080/paymenttransactions/<PT_ID> \
+--header 'Authorization: Bearer <ADMIN_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "gateway": "PayPal",
+  "status": "completed",
+  "amount": 120.00,
+  "currency": "USD",
+  "gateway_transaction_id": "PAYID-LXYZ1234ABC"
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Payment transaction updated successfully",
+  "payment_transaction": {
+    "ID": "<PT_ID>",
+    "DonationID": "123e4567-e89b-12d3-a456-426614174000",
+    "Gateway": "PayPal",
+    "Status": "completed",
+    "Amount": 120.00,
+    "Currency": "USD",
+    "GatewayTransactionID": "PAYID-LXYZ1234ABC",
+    "CreatedAt": "2025-03-04T00:55:00Z",
+    "UpdatedAt": "2025-03-04T01:10:00Z"
+  }
+}
+```
+
+### Bulk Delete Payment Transactions  
+**Endpoint:** `DELETE /paymenttransactions/bulk` (Protected, Admin Only)  
+**Description:** Deletes multiple payment transactions by their IDs.  
+**Sample Request:**
+```bash
+curl -X DELETE http://localhost:8080/paymenttransactions/bulk \
+--header 'Authorization: Bearer <ADMIN_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "ids": ["<PT_ID_1>", "<PT_ID_2>"]
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Payment transactions deleted successfully"
+}
+```
+
+
+## WITHDRAWALS
+
+### Create Withdrawal  
+**Endpoint:** `POST /withdrawals` (Protected)  
+**Description:** Creates a new withdrawal record for a campaign.  
+**Sample Request:**
+```bash
+curl -X POST http://localhost:8080/withdrawals \
+--header 'Authorization: Bearer <YOUR_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "campaign_id": "c579a44f-a23e-4eb8-957a-34a4d771960f",
+  "amount": 250.00,
+  "status": "pending"
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Withdrawal created successfully",
+  "withdrawal": {
+    "ID": "<WITHDRAWAL_ID>",
+    "CampaignID": "c579a44f-a23e-4eb8-957a-34a4d771960f",
+    "Amount": 250.00,
+    "Status": "pending",
+    "ProcessedAt": null,
+    "CreatedAt": "2025-03-04T01:00:00Z",
+    "UpdatedAt": "2025-03-04T01:00:00Z"
+  }
+}
+```
+
+### Get Withdrawal by ID  
+**Endpoint:** `GET /withdrawals/:id` (Protected)  
+**Description:** Retrieves a withdrawal record by its unique ID.  
+**Sample Request:**
+```bash
+curl -X GET http://localhost:8080/withdrawals/<WITHDRAWAL_ID> \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "withdrawal": {
+    "ID": "<WITHDRAWAL_ID>",
+    "CampaignID": "c579a44f-a23e-4eb8-957a-34a4d771960f",
+    "Amount": 250.00,
+    "Status": "pending",
+    "ProcessedAt": null,
+    "CreatedAt": "2025-03-04T01:00:00Z",
+    "UpdatedAt": "2025-03-04T01:00:00Z"
+  }
+}
+```
+
+### List Withdrawals  
+**Endpoint:** `GET /withdrawals?campaign_id=<CAMPAIGN_ID>` (Protected)  
+**Description:** Lists all withdrawal records with an optional filter by campaign_id.  
+**Sample Request:**
+```bash
+curl -X GET "http://localhost:8080/withdrawals?campaign_id=c579a44f-a23e-4eb8-957a-34a4d771960f" \
+--header 'Authorization: Bearer <YOUR_TOKEN>'
+```
+**Sample Response:**
+```json
+{
+  "withdrawals": [
+    {
+      "ID": "<WITHDRAWAL_ID>",
+      "CampaignID": "c579a44f-a23e-4eb8-957a-34a4d771960f",
+      "Amount": 250.00,
+      "Status": "pending",
+      "ProcessedAt": null,
+      "CreatedAt": "2025-03-04T01:00:00Z",
+      "UpdatedAt": "2025-03-04T01:00:00Z"
+    }
+  ]
+}
+```
+
+### Update Withdrawal  
+**Endpoint:** `PUT /withdrawals/:id` (Protected, Admin Only)  
+**Description:** Updates a withdrawal record. Updatable fields include amount, status, and processed_at.  
+**Sample Request:**
+```bash
+curl -X PUT http://localhost:8080/withdrawals/<WITHDRAWAL_ID> \
+--header 'Authorization: Bearer <ADMIN_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "amount": 300.00,
+  "status": "processed",
+  "processed_at": "2025-03-04T02:00:00Z"
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Withdrawal updated successfully",
+  "withdrawal": {
+    "ID": "<WITHDRAWAL_ID>",
+    "CampaignID": "c579a44f-a23e-4eb8-957a-34a4d771960f",
+    "Amount": 300.00,
+    "Status": "processed",
+    "ProcessedAt": "2025-03-04T02:00:00Z",
+    "CreatedAt": "2025-03-04T01:00:00Z",
+    "UpdatedAt": "2025-03-04T02:00:00Z"
+  }
+}
+```
+
+### Bulk Delete Withdrawals  
+**Endpoint:** `DELETE /withdrawals/bulk` (Protected, Admin Only)  
+**Description:** Deletes multiple withdrawal records by their IDs.  
+**Sample Request:**
+```bash
+curl -X DELETE http://localhost:8080/withdrawals/bulk \
+--header 'Authorization: Bearer <ADMIN_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "ids": ["<WITHDRAWAL_ID_1>", "<WITHDRAWAL_ID_2>"]
+}'
+```
+**Sample Response:**
+```json
+{
+  "message": "Withdrawals deleted successfully"
+}
+```
+
+
+

@@ -63,3 +63,19 @@ In Sprint 3, we significantly enhanced our crowdfunding platform by integrating 
  
  ---
 
+ ## 👥 Contributors
+
+- **Vennela** - Frontend Development
+- **Deepthi** - Frontend Development
+- **Chandan** - Backend Development
+- **Shruthi** - Backend Development
+
+## 🎬 Frontend Walkthrough Video
+📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/Rl5WHgtAUi4)
+
+## 🎬 Backend Walkthrough Video
+📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://youtu.be/2x5W0A-6G3E)
+
+
+🚀 **Impacta - Empowering Small Causes, One Donation at a Time!**
+
