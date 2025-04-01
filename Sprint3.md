@@ -70,7 +70,7 @@ In Sprint 3, we significantly enhanced our crowdfunding platform by integrating 
 - **Chandan** - Backend Development
 - **Shruthi** - Backend Development
 
-  ## 🎬 Frontend Walkthrough Video
+## 🎬 Frontend Walkthrough Video
 📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/Rl5WHgtAUi4)
 
 ## 🎬 Backend Walkthrough Video
