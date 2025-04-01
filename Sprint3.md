@@ -71,7 +71,7 @@ Our project successfully delivered a comprehensive Admin Analytics Dashboard tha
 - **Shruthi** - Backend Development
 
 ## 🎬 Frontend Walkthrough Video
-📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/Rl5WHgtAUi4)
+📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/6bDxygBRL54)
 
 ## 🎬 Backend Walkthrough Video
 📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://youtu.be/2x5W0A-6G3E)
