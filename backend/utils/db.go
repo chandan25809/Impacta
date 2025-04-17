@@ -12,7 +12,7 @@ func ConnectDB() {
     var err error
 
     // Update this connection string with your database credentials
-    dsn := "host=localhost user=impacta_user password=impacta dbname=impacta port=5432 sslmode=disable TimeZone=Asia/Kolkata"
+    dsn := "host=host.docker.internal user=impacta_user password=impacta dbname=impacta port=5432 sslmode=disable TimeZone=Asia/Kolkata"
 
     DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
     if err != nil {

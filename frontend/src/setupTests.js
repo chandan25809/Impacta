@@ -6,10 +6,10 @@ if (typeof NodeList !== 'undefined' && !NodeList.prototype.includes) {
 }
 
 // Existing polyfill for matchMedia, etc.
-if (!window.matchMedia) {
-  window.matchMedia = (query) => ({
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = () => ({
     matches: false,
-    media: query,
+    media: '',
     onchange: null,
     addListener: () => {},
     removeListener: () => {},

@@ -1,0 +1,22 @@
+:global(.ant-btn) {
+    background-color: #1890ff !important; /* Replace with your desired light color */
+    border-color: #1890ff !important;
+    color: #fff !important;
+  }
+  
+:global(.ant-pagination-item-link) {
+    background-color: #1890ff !important;
+    border-color: #1890ff !important;
+    color: #fff !important;
+  }
+  
+  :global(.ant-modal-close) {
+    background: #1890ff !important; /* desired background color */
+    border: none !important;
+    color: #fff !important;
+  }
+  
+  :global(.ant-modal-close:hover) {
+    background: #40a9ff !important; /* desired hover background color */
+  }
+  

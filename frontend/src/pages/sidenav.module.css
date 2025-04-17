@@ -1,19 +1,18 @@
 .sider {
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    background: #fff; /* White background for a light theme */
-    overflow: auto;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-    z-index: 2;
-  }
-  
-  .logo {
-    height: 64px;
-    margin: 16px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #000; /* Use a dark color for contrast against the white background */
-  }
-  
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  background: #fff; /* White background for a light theme */
+  overflow: auto;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+.logo {
+  height: 64px;
+  margin: 16px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000; /* Dark text for contrast */
+}
