@@ -87,7 +87,7 @@ const AnalyticsDashboard = () => {
 
   return (
     <>
-      <Navbar />
+    
       <div style={{ padding: '20px' }}>
         <Title level={2} style={{ textAlign: 'center' }}>
           Admin Analytics Dashboard
