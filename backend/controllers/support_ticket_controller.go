@@ -89,36 +89,47 @@ func GetSupportTicketByID(c *gin.Context) {
 // ListSupportTickets lists all support tickets for a given user.
 // Non-admin users can only view their own tickets. Admins can filter by user_id.
 func ListSupportTickets(c *gin.Context) {
-	claims, exists := c.Get("claims")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
-	userClaims, ok := claims.(*utils.Claims)
-	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
-		return
-	}
+    claims, exists := c.Get("claims")
+    if !exists {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+        return
+    }
+    userClaims, ok := claims.(*utils.Claims)
+    if !ok {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+        return
+    }
 
-	// Use query parameter "user_id". If not provided, default to the authenticated user's ID.
-	userID := c.Query("user_id")
-	if userID == "" {
-		userID = userClaims.UserID
-	} else {
-		// If provided, and caller is not admin, ensure they only access their own tickets.
-		if userClaims.Role != "admin" && userClaims.UserID != userID {
-			c.JSON(http.StatusForbidden, gin.H{"error": "You can only view your own support tickets"})
-			return
-		}
-	}
+    var tickets []models.SupportTicket
+    var err error
 
-	var tickets []models.SupportTicket
-	if err := utils.DB.Where("user_id = ?", userID).Find(&tickets).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch support tickets"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"tickets": tickets})
+    if userClaims.Role == "admin" {
+        // Admins get all tickets
+        err = utils.DB.Find(&tickets).Error
+    } else {
+        // Non‑admins: allow optional ?user_id= but only their own
+        userID := c.Query("user_id")
+        if userID == "" {
+            userID = userClaims.UserID
+        } else if userClaims.UserID != userID {
+            c.JSON(http.StatusForbidden, gin.H{"error": "You can only view your own support tickets"})
+            return
+        }
+
+        err = utils.DB.
+            Where("user_id = ?", userID).
+            Find(&tickets).
+            Error
+    }
+
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch support tickets"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"tickets": tickets})
 }
+
 
 // UpdateSupportTicketByID updates a support ticket by its ID.
 // Only the ticket owner or an admin can update.

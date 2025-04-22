@@ -13,7 +13,6 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
-            // Set Accept header to JSON
             proxyReq.setHeader('Accept', 'application/json');
           });
         },
@@ -22,7 +21,11 @@ export default defineConfig({
   },
   test: {
     globals: true,            
-    environment: 'jsdom',     
-    setupFiles: './src/setupTests.js',  
+    environment: 'jsdom',
+         
+    setupFiles: [
+      './src/polyfills/matchMedia.js',  // 1) This must come FIRST
+      './src/setupTests.js',            // 2) Then your other setup
+    ],
   },
 });

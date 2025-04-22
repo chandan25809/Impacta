@@ -35,7 +35,7 @@ const SideNav = ({ userRole }) => {
       <div className={styles.menuContainer}>
         <Menu theme="light" mode="inline" defaultSelectedKeys={["dashboard"]}>
           <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
-            <Link to="/analyticsDashboard">Dashboard</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </Menu.Item>
           <Menu.Item key="campaigns" icon={<FundOutlined />}>
             <Link to="/campaigns">Campaigns</Link>

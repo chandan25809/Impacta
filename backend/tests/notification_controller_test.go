@@ -45,9 +45,11 @@ func setupNotificationTestDB(t *testing.T) *gorm.DB {
 	return db
 }
 
-// createTestUserForNotification creates a test user and returns its ID.
+// createTestUserForNotification creates a test user with a unique email and returns its ID.
 func createTestUserForNotification(t *testing.T, db *gorm.DB, email, fullName, role, password string) uuid.UUID {
 	uid := uuid.New()
+	// Append the uuid to the email to ensure uniqueness.
+	uniqueEmail := email + "-" + uid.String()
 	var passwordHash string
 	if password != "" {
 		hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -55,7 +57,7 @@ func createTestUserForNotification(t *testing.T, db *gorm.DB, email, fullName, r
 	}
 	user := models.User{
 		ID:           uid,
-		Email:        email,
+		Email:        uniqueEmail,
 		FullName:     fullName,
 		Role:         role,
 		Status:       "active",

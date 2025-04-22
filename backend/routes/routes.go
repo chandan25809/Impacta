@@ -10,6 +10,8 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
+	r.Use(middlewares.MetricsMiddleware())
+
 	// Public routes
 	r.POST("/register", controllers.RegisterUser)
 	r.POST("/login", controllers.LoginUser)

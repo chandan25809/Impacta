@@ -6,11 +6,11 @@ if (typeof NodeList !== 'undefined' && !NodeList.prototype.includes) {
   NodeList.prototype.includes = Array.prototype.includes;
 }
 
-// Polyfill for matchMedia if needed
-if (!window.matchMedia) {
-  window.matchMedia = (query) => ({
+// Existing polyfill for matchMedia, etc.
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = () => ({
     matches: false,
-    media: query,
+    media: '',
     onchange: null,
     addListener: () => {},
     removeListener: () => {},
