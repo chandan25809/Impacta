@@ -79,7 +79,9 @@ To strengthen infrastructure monitoring, we integrated **Prometheus and Grafana*
 - **Shruthi** - Backend Development
 
 ## 🎬 Frontend Walkthrough Video
-📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/6bDxygBRL54)
+📽️ Watch the full frontend walkthrough here: [Frontend Walkthrough Video](https://youtu.be/yIxtH9PpRfg)
+📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://youtu.be/yIxtH9PpRfg)
+
 
 ## 🎬 Backend Walkthrough Video
 📽️ Watch the full backend walkthrough here: [Backend Walkthrough Video](https://youtu.be/yIxtH9PpRfg)
