@@ -7,7 +7,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate("/register"); // Redirects to the login page
+    navigate("/createcampaign"); // Redirects to the login page
   };
    
   return <>
