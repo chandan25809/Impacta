@@ -107,4 +107,25 @@ describe('Donation Page', () => {
     // Check that a modal is visible; adjust the selector if needed
     cy.get('.ant-modal').should('be.visible');
   });
+
+  it('toggles share options when clicking Share button', () => {
+    // Initially, share links should not exist
+    cy.get(`a[href*="api.whatsapp.com"]`).should('not.exist');
+    cy.get(`a[href*="twitter.com"]`).should('not.exist');
+    cy.get(`a[href*="instagram.com"]`).should('not.exist');
+
+    // Click the Share button
+    cy.contains('Share').click();
+
+    // Now the share links should appear
+    cy.get(`a[href*="api.whatsapp.com"]`).should('be.visible');
+    cy.get(`a[href*="twitter.com"]`).should('be.visible');
+    cy.get(`a[href*="instagram.com"]`).should('be.visible');
+
+    // Click again to hide
+    cy.contains('Share').click();
+    cy.get(`a[href*="api.whatsapp.com"]`).should('not.exist');
+    cy.get(`a[href*="twitter.com"]`).should('not.exist');
+    cy.get(`a[href*="instagram.com"]`).should('not.exist');
+  });
 });

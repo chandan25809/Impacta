@@ -7,16 +7,23 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import Register from "./pages/register";
 import Login from "./pages/login";
-import Dashboard from "./pages/dashboard";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import DonationPage from "./pages/donation";
 import CreateCampaign from "./pages/CreateCampaign";
 import DashboardTable from "./pages/table";
 import AppLayout from "./pages/appLayout";
 import Campaigns from "./pages/Campaigns";
 import DonationDashboard from "./pages/donation_dashboard";
+import SupportTickets from "./pages/SupportTickets";
+import AskQuestion from "./pages/askQuestion";       
+import SupportWidget from "./components/SupportWidget";
 
-const App = () => {
+export default function App() {
   return (
+    <>
+      {/* If you want the widget globally */}
+      <SupportWidget />
+
       <Routes>
         {/* Public Routes */}
         <Route element={<PublicRoute />}>
@@ -27,21 +34,21 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/donation/:campaignId" element={<DonationPage />} />
           <Route path="/table" element={<DashboardTable />} />
-          {/* Add additional public routes here */}
+          <Route path="/support" element={<SupportTickets />} />
         </Route>
 
-        {/* Private Routes with Persistent Layout */}
+        {/* Private Routes */}
         <Route element={<PrivateRoute />}>
+          <Route path="/support/ask" element={<AskQuestion />} />
           <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createcampaign" element={<CreateCampaign />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/donations" element={<DonationDashboard />} />
-            {/* Add additional private routes here if needed */}
+            <Route path="/analyticsdashboard" element={<AnalyticsDashboard />} />
           </Route>
         </Route>
       </Routes>
+      <SupportWidget />
+    </>
   );
-};
-
-export default App;
+}

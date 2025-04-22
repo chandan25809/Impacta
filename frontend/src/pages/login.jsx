@@ -32,8 +32,8 @@ const Login = () => {
         localStorage.setItem("token", token);
         console.log("🔑 Token stored in localStorage:", token)
         message.success("Login successful! Redirecting to dashboard...");
-        console.log("🔄 Redirecting to /dashboard...");
-        setTimeout(() => navigate("/dashboard"), 1000);
+        console.log("🔄 Redirecting to /analyticsdashboard...");
+        setTimeout(() => navigate("/analyticsdashboard"), 1000);
       } else {
         message.error("Unexpected response from server.");
         console.error("⚠️ Unexpected API Response:", response);

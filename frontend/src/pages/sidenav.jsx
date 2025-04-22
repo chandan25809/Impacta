@@ -28,7 +28,7 @@ const SideNav = ({ userRole }) => {
   return (
     <Sider className={styles.sider} width={250}>
       <div className={styles.logo}>
-        <Link to="/dashboard" style={{ color: "#000", textDecoration: "none" }}>
+        <Link to="/analyticsDashboard" style={{ color: "#000", textDecoration: "none" }}>
           Impacta
         </Link>
       </div>

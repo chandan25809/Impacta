@@ -1,20 +1,50 @@
-import React, { useState } from "react";
-import { Drawer, Tabs, Table, Badge, Button } from "antd";
+// src/components/Sidebar.jsx
+import React, { useState, useEffect } from "react";
+import { Drawer, Tabs, Table, Badge, Button, Spin } from "antd";
 import { BellOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const { TabPane } = Tabs;
 
 const Sidebar = () => {
   const [visible, setVisible] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // 🔥 Store Notifications in State
-  const [notifications, setNotifications] = useState([
-    { key: "1", message: "You received a $100 donation!", status: "Unread" },
-    { key: "2", message: "Campaign 'Wildlife Protection' approved!", status: "Unread" },
-    { key: "3", message: "Milestone reached: 50% of the goal!", status: "Read" },
-  ]);
+  // Fetch notifications from API on component mount
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      setLoading(true);
+      try {
+        // Retrieve user id and token from localStorage (ensure these are set at login)
+        const user_id = localStorage.getItem("user_id");
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:8080/notifications?user_id=${user_id}`,
+          {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          }
+        );
+        // Assuming API returns { notifications: [ {ID, UserID, Content, Status, ...} ] }
+        const fetchedNotifications = response.data.notifications.map(n => ({
+          key: n.ID,
+          message: n.Content,
+          // Capitalize first letter for display; assuming API returns "unread"
+          status: n.Status.charAt(0).toUpperCase() + n.Status.slice(1),
+        }));
+        setNotifications(fetchedNotifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+      setLoading(false);
+    };
 
-  // 🔥 Recent Donations (Show only last 5)
+    fetchNotifications();
+  }, []);
+
+  // Dummy Recent Donations Data (could be replaced with an API call later)
   const allDonations = [
     { key: "1", donor: "John Doe", amount: "$100", campaign: "Education for All" },
     { key: "2", donor: "Jane Smith", amount: "$50", campaign: "COVID-19 Relief" },
@@ -23,12 +53,12 @@ const Sidebar = () => {
     { key: "5", donor: "Michael Lee", amount: "$20", campaign: "Animal Shelter Support" },
     { key: "6", donor: "Sophia Davis", amount: "$200", campaign: "Scholarship Program" },
   ];
-  const recentDonations = allDonations.slice(-5); // ✅ Show only last 5 donations
+  const recentDonations = allDonations.slice(-5); // Last 5 donations
 
   const showDrawer = () => setVisible(true);
   const closeDrawer = () => setVisible(false);
 
-  // 🔥 Mark Notification as Read
+  // Mark a notification as read
   const markAsRead = (key) => {
     setNotifications((prevNotifications) =>
       prevNotifications.map((notif) =>
@@ -37,7 +67,7 @@ const Sidebar = () => {
     );
   };
 
-  // 📌 Table Columns
+  // Columns for notifications table
   const notificationColumns = [
     {
       title: "Message",
@@ -45,8 +75,11 @@ const Sidebar = () => {
       key: "message",
       render: (text, record) => (
         <span
-          onClick={() => markAsRead(record.key)} // ✅ Click to mark as read
-          style={{ cursor: "pointer", fontWeight: record.status === "Unread" ? "bold" : "normal" }}
+          onClick={() => markAsRead(record.key)}
+          style={{
+            cursor: "pointer",
+            fontWeight: record.status === "Unread" ? "bold" : "normal",
+          }}
         >
           {text}
         </span>
@@ -65,6 +98,7 @@ const Sidebar = () => {
     },
   ];
 
+  // Columns for recent donations table
   const donationColumns = [
     { title: "Donor", dataIndex: "donor", key: "donor" },
     { title: "Amount", dataIndex: "amount", key: "amount" },
@@ -73,13 +107,13 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* 🔔 Bell Icon for Notifications */}
+      {/* Bell Icon for Notifications */}
       <Button
         type="text"
-        icon={<BellOutlined style={{ fontSize: "18px", color: "white" }} />} 
+        icon={<BellOutlined style={{ fontSize: "18px", color: "white" }} />}
         onClick={showDrawer}
         style={{
-          background: "transparent", 
+          background: "transparent",
           border: "none",
           boxShadow: "none",
         }}
@@ -87,18 +121,40 @@ const Sidebar = () => {
         <Badge count={notifications.filter((n) => n.status === "Unread").length} />
       </Button>
 
-      {/* 📌 Sidebar Drawer */}
-      <Drawer title="Activity Panel" placement="right" closable onClose={closeDrawer} open={visible} width={400}>
+      {/* Sidebar Drawer */}
+      <Drawer
+        title="Activity Panel"
+        placement="right"
+        closable
+        onClose={closeDrawer}
+        open={visible}
+        width={400}
+      >
         <Tabs defaultActiveKey="1">
-          {/* 🔔 Notifications Tab */}
+          {/* Notifications Tab */}
           <TabPane tab="🔔 Notifications" key="1">
-            <Table dataSource={notifications} columns={notificationColumns} pagination={false} />
+            {loading ? (
+              <Spin tip="Loading notifications..." />
+            ) : (
+              <Table
+                dataSource={notifications}
+                columns={notificationColumns}
+                pagination={false}
+              />
+            )}
           </TabPane>
 
-          {/* 💰 Recent Donations Tab */}
+          {/* Recent Donations Tab */}
           <TabPane tab="💰 Recent Donations" key="2">
-            <Table dataSource={recentDonations} columns={donationColumns} pagination={false} />
-            <Button type="link" onClick={() => console.log("Redirect to full donations page")}>
+            <Table
+              dataSource={recentDonations}
+              columns={donationColumns}
+              pagination={false}
+            />
+            <Button
+              type="link"
+              onClick={() => console.log("Redirect to full donations page")}
+            >
               View All Donations →
             </Button>
           </TabPane>

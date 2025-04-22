@@ -1,15 +1,76 @@
 package controllers
 
 import (
-	"time"
 	"backend/models"
 	"backend/utils"
+	"fmt"
+	"log"
 	"net/http"
+	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
+const campaignCreatedEmailTemplate = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>New Campaign Created</title>
+  <style>
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table { border-collapse:collapse!important; }
+    body { margin:0!important; padding:0!important; width:100%!important;
+           font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+           background-color:#f4f4f4; color:#333; }
+    a { color:#1a73e8; text-decoration:none; }
+    .email-container { max-width:600px; margin:auto; background:#fff;
+                       border-radius:8px; overflow:hidden; }
+    .header { background:#1a73e8; padding:20px; text-align:center; }
+    .header h1 { color:#fff; margin:0; font-size:28px; letter-spacing:1px; }
+    .content { padding:30px; }
+    .content h2 { margin:0 0 16px; font-size:24px; color:#333; }
+    .content p { margin:0 0 16px; line-height:1.6; }
+    .details { background:#f9f9f9; padding:16px; border-radius:4px; }
+    .details dt { font-weight:bold; margin-top:8px; }
+    .btn { display:inline-block; padding:12px 24px; background:#1a73e8;
+           color:#fff!important; border-radius:4px; font-weight:bold; }
+    .footer { background:#f4f4f4; padding:20px; text-align:center;
+              font-size:12px; color:#777; }
+  </style>
+</head>
+<body>
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center">
+      <div class="email-container">
+        <div class="header">
+          <h1>Impacta</h1>
+        </div>
+        <div class="content">
+          <h2>Congratulations, {{.CreatorName}}!</h2>
+          <p>Your new campaign has just been created successfully. Here are the details:</p>
+          <dl class="details">
+            <dt>Title:</dt><dd>{{.Title}}</dd>
+            <dt>Goal:</dt><dd>{{.TargetAmount}} {{.Currency}}</dd>
+            <dt>Deadline:</dt><dd>{{.Deadline}}</dd>
+            <dt>Category:</dt><dd>{{.Category}}</dd>
+          </dl>
+          <p style="text-align:center; margin-top:24px;">
+            <a href="{{.DashboardURL}}" class="btn">View Your Campaign</a>
+          </p>
+          <p>Thank you for using Impacta to make a difference!</p>
+          <p>Warm regards,<br>The Impacta Team</p>
+        </div>
+        <div class="footer">
+          <p>&copy; 2025 Impacta Inc. All rights reserved.</p>
+        </div>
+      </div>
+    </td></tr>
+  </table>
+</body>
+</html>`
 
 func CreateCampaign(c *gin.Context) {
 	// Retrieve claims from the context
@@ -67,9 +128,35 @@ func CreateCampaign(c *gin.Context) {
 		"message":  "Campaign created successfully",
 		"campaign": campaign,
 	})
+
+	var user models.User
+	if err := utils.DB.Select("full_name", "email").
+		Where("id = ?", userClaims.UserID).
+		First(&user).Error; err != nil {
+		log.Printf("warning: could not load user for email notification: %v", err)
+	}
+
+	// 2) fire off email using user.FullName
+	go func(to, name string, cam models.Campaign) {
+		subject := "Your new campaign is live on Impacta!"
+		body := campaignCreatedEmailTemplate
+		replacements := map[string]string{
+			"{{.CreatorName}}":  name,
+			"{{.Title}}":        cam.Title,
+			"{{.TargetAmount}}": fmt.Sprintf("%.2f", cam.TargetAmount),
+			"{{.Currency}}":     cam.Currency,
+			"{{.Deadline}}":     cam.Deadline.Format("Jan 2, 2006"),
+			"{{.Category}}":     cam.Category,
+			"{{.DashboardURL}}": fmt.Sprintf("https://yourapp.com/campaigns/%s", cam.ID),
+		}
+		for placeholder, val := range replacements {
+			body = strings.ReplaceAll(body, placeholder, val)
+		}
+		if err := utils.SendEmail(to, subject, body); err != nil {
+			log.Printf("error sending campaign email to %s: %v", to, err)
+		}
+	}(user.Email, user.FullName, campaign)
 }
-
-
 
 func UpdateCampaign(c *gin.Context) {
 	id := c.Param("id")
@@ -102,12 +189,12 @@ func UpdateCampaign(c *gin.Context) {
 
 	// Bind input JSON
 	var input struct {
-		Title       string    `json:"title,omitempty"`
-		Description string    `json:"description,omitempty"`
-		TargetAmount float64  `json:"target_amount,omitempty"`
-		Deadline    time.Time `json:"deadline,omitempty"`
-		Status      string    `json:"status,omitempty"`
-		Category    string    `json:"category,omitempty"`
+		Title        string    `json:"title,omitempty"`
+		Description  string    `json:"description,omitempty"`
+		TargetAmount float64   `json:"target_amount,omitempty"`
+		Deadline     time.Time `json:"deadline,omitempty"`
+		Status       string    `json:"status,omitempty"`
+		Category     string    `json:"category,omitempty"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -142,7 +229,6 @@ func UpdateCampaign(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Campaign updated successfully", "campaign": campaign})
 }
-
 
 func DeleteCampaign(c *gin.Context) {
 	id := c.Param("id")
@@ -181,7 +267,6 @@ func DeleteCampaign(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Campaign deleted successfully"})
 }
-
 
 func ListCampaigns(c *gin.Context) {
 	// Query parameters for filtering
