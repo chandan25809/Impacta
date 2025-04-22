@@ -1,18 +1,83 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
+	"strings"
+
 	// "time"
 	"backend/models"
 	"backend/utils"
 	"net/http"
-	"github.com/gin-gonic/gin"
-	// "github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
-	"errors"
-    "gorm.io/gorm"
 
+	"github.com/gin-gonic/gin"
+
+	// "github.com/google/uuid"
+	"errors"
+
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
+
+const welcomeEmailTemplate = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Welcome to Impacta</title>
+  <style>
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table { border-collapse:collapse!important; }
+    body { margin:0!important; padding:0!important; width:100%!important;
+           font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+           background-color:#f4f4f4; color:#333; }
+    a { color:#1a73e8; text-decoration:none; }
+    .email-container { max-width:600px; margin:auto; background:#fff;
+                       border-radius:8px; overflow:hidden; }
+    .header { background:#1a73e8; padding:20px; text-align:center; }
+    .header h1 { color:#fff; margin:0; font-size:28px; letter-spacing:1px; }
+    .content { padding:30px; }
+    .content h2 { margin:0 0 16px; font-size:24px; color:#333; }
+    .content p { margin:0 0 16px; line-height:1.6; }
+    .features { list-style:none; padding:0; margin:20px 0; }
+    .features li { margin-bottom:10px; padding-left:20px; position:relative; }
+    .features li:before { content:'✔'; position:absolute; left:0; color:#1a73e8; }
+    .btn { display:inline-block; padding:12px 24px; background:#1a73e8;
+           color:#fff!important; border-radius:4px; font-weight:bold; }
+    .footer { background:#f4f4f4; padding:20px; text-align:center;
+              font-size:12px; color:#777; }
+  </style>
+</head>
+<body>
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center">
+      <div class="email-container">
+        <div class="header">
+          <h1>Impacta</h1>
+        </div>
+        <div class="content">
+          <h2>Welcome aboard, {{.Name}}!</h2>
+          <p>Thank you for signing up for <strong>Impacta</strong> – your new home for creating and supporting impactful campaigns.</p>
+          <p>Here’s what you can do next:</p>
+          <ul class="features">
+            <li><strong>Launch a Campaign:</strong> Share your story and goals with the world.</li>
+            <li><strong>Discover Causes:</strong> Browse and support campaigns that matter.</li>
+            <li><strong>Track Impact:</strong> See real‑time updates on contributions and goals.</li>
+          </ul>
+          <p style="text-align:center;">
+            <a href="https://yourapp.com/dashboard" class="btn">Go to Your Dashboard</a>
+          </p>
+          <p>If you have questions or need help, just reply to this email—we’re here for you!</p>
+          <p>Cheers,<br>The Impacta Team</p>
+        </div>
+        <div class="footer">
+          <p>&copy; 2025 Impacta Inc. All rights reserved.</p>
+        </div>
+      </div>
+    </td></tr>
+  </table>
+</body>
+</html>`
 
 func RegisterUser(c *gin.Context) {
 	// Temporary struct for input binding
@@ -20,7 +85,7 @@ func RegisterUser(c *gin.Context) {
 		Email    string `json:"email" binding:"required,email"`
 		Password string `json:"password,omitempty"` // No "required" tag
 		FullName string `json:"full_name" binding:"required"`
-		Role     string `json:"role,omitempty"`     // Optional; defaults to "donor"
+		Role     string `json:"role,omitempty"` // Optional; defaults to "donor"
 	}
 
 	// Bind the input JSON
@@ -102,6 +167,16 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
+	// **SEND WELCOME EMAIL ASYNC**
+	// send the welcome email asynchronously
+	go func(to, name string) {
+		subject := fmt.Sprintf("🎉 Welcome to Impacta, %s!", name)
+		body := strings.ReplaceAll(welcomeEmailTemplate, "{{.Name}}", name)
+		if err := utils.SendEmail(to, subject, body); err != nil {
+			log.Printf("error sending welcome email to %s: %v", to, err)
+		}
+	}(user.Email, user.FullName)
+
 	// Respond with success
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User registered successfully",
@@ -117,9 +192,6 @@ func RegisterUser(c *gin.Context) {
 		},
 	})
 }
-
-
-
 
 // Login a user and return a JWT token
 func LoginUser(c *gin.Context) {
@@ -143,7 +215,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	log.Println("Stored hashed password:", user.PasswordHash) // Debug log
+	log.Println("Stored hashed password:", user.PasswordHash)           // Debug log
 	log.Println("Plaintext password from user:", loginDetails.Password) // Debug log
 
 	// Compare the password
@@ -163,8 +235,6 @@ func LoginUser(c *gin.Context) {
 	log.Println("Token generated for user:", token) // Debug log
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
-
-
 
 // Get user details (protected route)
 func GetUser(c *gin.Context) {
@@ -214,11 +284,11 @@ func GetUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User registered successfully",
 		"user": gin.H{
-			"id":        user.ID,
-			"email":     user.Email,
-			"full_name": user.FullName,
-			"role":      user.Role,
-			"status":    user.Status,
+			"id":         user.ID,
+			"email":      user.Email,
+			"full_name":  user.FullName,
+			"role":       user.Role,
+			"status":     user.Status,
 			"created_at": user.CreatedAt,
 			"updated_at": user.UpdatedAt,
 		},
@@ -280,18 +350,16 @@ func UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "User updated successfully",
 		"user": gin.H{
-			"id":        user.ID,
-			"email":     user.Email,
-			"full_name": user.FullName,
-			"role":      user.Role,
-			"status":    user.Status,
+			"id":         user.ID,
+			"email":      user.Email,
+			"full_name":  user.FullName,
+			"role":       user.Role,
+			"status":     user.Status,
 			"created_at": user.CreatedAt,
 			"updated_at": user.UpdatedAt,
 		},
 	})
 }
-
-
 
 func DeleteUser(c *gin.Context) {
 	// Retrieve claims from the context
@@ -325,8 +393,6 @@ func DeleteUser(c *gin.Context) {
 	})
 }
 
-
-
 func GetAllUsers(c *gin.Context) {
 	// Retrieve claims from the context
 	claims, exists := c.Get("claims")
@@ -358,8 +424,6 @@ func GetAllUsers(c *gin.Context) {
 	// Return the list of users
 	c.JSON(http.StatusOK, gin.H{"users": users})
 }
-
-
 
 func RefreshToken(c *gin.Context) {
 	// Retrieve claims from the context
