@@ -88,10 +88,10 @@ describe('DonationPage', () => {
 
   it('renders loading state and then displays campaign details', async () => {
     renderComponent();
-    // Assuming your component shows a "Loading campaign..." placeholder initially
+    // Initial loading placeholder
     expect(screen.getByText(/Loading campaign/i)).toBeInTheDocument();
 
-    // After data loads, check for campaign details
+    // After data loads
     await waitFor(() =>
       expect(screen.getByText("Test Campaign 2")).toBeInTheDocument()
     );
@@ -124,17 +124,28 @@ describe('DonationPage', () => {
     );
   });
 
-//   it('opens donation modal when clicking Donate now button', async () => {
-//     renderComponent();
-//     await waitFor(() =>
-//       expect(screen.getByText("Test Campaign 2")).toBeInTheDocument()
-//     );
-//     // Assuming the first "Donate now" button opens the donation modal
-//     const donateButton = screen.getAllByText("Donate now")[0];
-//     fireEvent.click(donateButton);
-//     // Check that an element inside the modal is visible (adjust based on your modal content)
-//     await waitFor(() =>
-//       expect(screen.getByText(/Donate now/i)).toBeInTheDocument()
-//     );
-//   });
+  it('toggles share options when clicking Share button', async () => {
+    renderComponent();
+    // wait for campaign title to ensure data loaded
+    await waitFor(() =>
+      expect(screen.getByText("Test Campaign 2")).toBeInTheDocument()
+    );
+
+    // Share options should not be visible initially
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
+
+    // Click the Share button
+    const shareBtn = screen.getByText("Share");
+    fireEvent.click(shareBtn);
+
+    // Now should have exactly three share links (WhatsApp, Twitter, Instagram)
+    const links = screen.getAllByRole('link');
+    expect(links).toHaveLength(3);
+
+    // Verify each share link href
+    expect(links[0]).toHaveAttribute('href', expect.stringContaining('api.whatsapp.com'));
+    expect(links[1]).toHaveAttribute('href', expect.stringContaining('twitter.com'));
+    expect(links[2]).toHaveAttribute('href', expect.stringContaining('instagram.com'));
+  });
+
 });
