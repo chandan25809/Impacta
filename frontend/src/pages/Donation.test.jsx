@@ -148,18 +148,4 @@ describe('DonationPage', () => {
     expect(links[2]).toHaveAttribute('href', expect.stringContaining('instagram.com'));
   });
 
-  // Uncomment and adapt if you want to test donation modal opening:
-  // it('opens donation modal when clicking Donate now button', async () => {
-  //   renderComponent();
-  //   await waitFor(() =>
-  //     expect(screen.getByText("Test Campaign 2")).toBeInTheDocument()
-  //   );
-  //   const donateButton = screen.getAllByText("Donate now")[0];
-  //   fireEvent.click(donateButton);
-  //   // Check that something inside the modal appears
-  //   await waitFor(() =>
-  //     expect(screen.getByText(/Donations/i)).toBeInTheDocument()
-  //   );
-  // });
-
 });
